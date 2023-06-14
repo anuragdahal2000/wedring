@@ -26,6 +26,8 @@ dependencies:
   go_router: ^8.0.3
   provider: ^6.0.5
   pin_code_fields: ^7.4.0
+  shared_preferences: ^2.1.2
+  dio: ^5.2.1+1
 
 dev_dependencies:
   flutter_test:
