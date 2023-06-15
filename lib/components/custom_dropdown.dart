@@ -23,16 +23,18 @@ class _CustomDropDownState extends State<CustomDropDown> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
       decoration: BoxDecoration(
-        color: kTeritary2,
         borderRadius: BorderRadius.circular(5.0),
+        border: Border.all(
+          color: kTeritary1,
+        ),
       ),
       child: DropdownButton<String>(
-        elevation: 0,
+        elevation: 12,
         isExpanded: true,
         borderRadius: BorderRadius.circular(
-          5.0,
+          8.0,
         ),
         underline: const SizedBox.shrink(),
         value: _value,
