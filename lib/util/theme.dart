@@ -21,7 +21,6 @@ class WedringTheme {
       appBarTheme: const AppBarTheme(
         backgroundColor: kPrimaryColor3,
         iconTheme: IconThemeData(color: kPrimaryColor1),
-        elevation: 0,
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: kBackgroundColor2,
