@@ -59,7 +59,9 @@ class _ScaffoldWithBottomNav extends State<ScaffoldWithBottomNav> {
         leading: Image.asset(
           'assets/images/logo.png',
         ),
-        title: const Text('Wedring'),
+        title: Text(
+          tabs[_currentIndex].label!,
+        ),
         centerTitle: true,
       ),
       body: SafeArea(
