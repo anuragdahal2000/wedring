@@ -47,41 +47,43 @@ class _SignUpState extends State<SignUp> {
           'Sign Up',
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  "Create a new account",
-                  style: kSemiBold20,
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                const Text(
-                  "Please fill the form to create a new account",
-                  style: kRegular14,
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                buildFormWidget(),
-                const SizedBox(
-                  height: 24,
-                ),
-                PrimaryButton(
-                  title: 'Continue',
-                  onPressed: () {
-                    context.goNamed('signup-2');
-                  },
-                ),
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Create a new account",
+                    style: kSemiBold20,
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  const Text(
+                    "Please fill the form to create a new account",
+                    style: kRegular14,
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  buildFormWidget(),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  PrimaryButton(
+                    title: 'Continue',
+                    onPressed: () {
+                      context.goNamed('signup-2');
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
