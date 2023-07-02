@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "288562079657",
+    "project_id": "wedring-96848",
+    "storage_bucket": "wedring-96848.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:288562079657:android:849a70eaeecd42c34806b8",
+        "android_client_info": {
+          "package_name": "com.example.wedring"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "288562079657-5i433277h68dv5m895ljfcgvn5dc4svb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8SHyRBMlHCFvV_G0E3ReEDLWvDOYZEP4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "288562079657-5i433277h68dv5m895ljfcgvn5dc4svb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
