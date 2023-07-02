@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wedring/components/primary_button.dart';
-import 'package:wedring/util/constant.dart';
+import 'package:wedring/utils/constant.dart';
 
 class EmptyScreenTemplate extends StatelessWidget {
   final String imagePath;
