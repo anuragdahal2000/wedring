@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wedring/util/helper.dart';
+import 'package:wedring/utils/helper.dart';
 
 class ScaffoldWithBottomNav extends StatefulWidget {
   final Widget child;

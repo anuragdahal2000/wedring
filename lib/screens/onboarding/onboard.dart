@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wedring/screens/onboarding/onboard_content.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wedring/util/constant.dart';
+import 'package:wedring/utils/constant.dart';
 
 class OnboardScreen extends StatefulWidget {
   const OnboardScreen({super.key});

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:wedring/components/primary_button.dart';
-import 'package:wedring/util/constant.dart';
+import 'package:wedring/utils/constant.dart';
 
 class OptVerification extends StatefulWidget {
   const OptVerification({Key? key}) : super(key: key);

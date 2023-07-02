@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wedring/components/custom_dropdown.dart';
 import 'package:wedring/components/primary_button.dart';
-import 'package:wedring/util/constant.dart';
-import 'package:wedring/util/helper.dart';
+import 'package:wedring/utils/constant.dart';
+import 'package:wedring/utils/helper.dart';
 
 class SignUp2 extends StatefulWidget {
   const SignUp2({super.key});

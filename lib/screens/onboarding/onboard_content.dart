@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wedring/util/constant.dart';
+import 'package:wedring/utils/constant.dart';
 
 class OnboardContent extends StatelessWidget {
   final String image, title, subtitle;

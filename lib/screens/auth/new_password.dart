@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wedring/components/custom_textfield.dart';
 import 'package:wedring/components/primary_button.dart';
-import 'package:wedring/util/constant.dart';
+import 'package:wedring/utils/constant.dart';
 
 class NewPassword extends StatefulWidget {
   const NewPassword({Key? key}) : super(key: key);
