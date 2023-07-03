@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:wedring/components/custom_textfield.dart';
 import 'package:wedring/components/primary_button.dart';
-import 'package:wedring/util/constant.dart';
+import 'package:wedring/utils/constant.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -76,6 +76,7 @@ class _SignUpState extends State<SignUp> {
                   PrimaryButton(
                     title: 'Continue',
                     onPressed: () {
+                      if (_formKey.currentState!.validate()) {}
                       context.goNamed('signup-2');
                     },
                   ),

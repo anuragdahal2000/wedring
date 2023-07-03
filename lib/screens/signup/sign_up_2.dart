@@ -15,23 +15,10 @@ class SignUp2 extends StatefulWidget {
 class _SignUp2State extends State<SignUp2> {
   bool checkboxValue = false;
 
-  final TextEditingController _passwordController = TextEditingController();
-
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
-
-  final TextEditingController _email = TextEditingController();
-
-  final TextEditingController _username = TextEditingController();
-
   final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    _email.dispose();
-    _username.dispose();
-    _confirmPasswordController.dispose();
-    _passwordController.dispose();
     super.dispose();
   }
 
@@ -119,52 +106,43 @@ class _SignUp2State extends State<SignUp2> {
       'New Zealand',
       'Other'
     ];
+    List<String> gender = ['Male', 'Female', 'Others'];
     return Form(
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Religon',
-            style: kRegular16,
+          CustomDropDown(
+            helperText: 'Gender',
+            optionList: gender,
+            selectedOption: gender[0],
           ),
           const SizedBox(
             height: 8,
           ),
           CustomDropDown(
+            helperText: 'Religion',
             optionList: religionList,
             selectedOption: religionList[0],
           ),
           const SizedBox(
-            height: 12,
-          ),
-          const Text(
-            'Community',
-            style: kRegular16,
-          ),
-          const SizedBox(
             height: 8,
           ),
           CustomDropDown(
+            helperText: 'Community',
             optionList: communityList,
             selectedOption: communityList[0],
           ),
           const SizedBox(
             height: 8,
           ),
-          const Text(
-            'Living in',
-            style: kRegular16,
-          ),
-          const SizedBox(
-            height: 8,
-          ),
           CustomDropDown(
+            helperText: 'Living In',
             optionList: livingIn,
             selectedOption: livingIn[0],
           ),
           const SizedBox(
-            height: 16,
+            height: 8,
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
