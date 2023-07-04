@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wedring/controllers/auth.dart';
 import 'package:wedring/utils/constant.dart';
 
 import '../../components/custom_dropdown.dart';
 import '../../components/primary_button.dart';
+import 'package:provider/provider.dart';
 
 class EduInfo extends StatefulWidget {
   const EduInfo({super.key});
@@ -71,6 +73,11 @@ class _EduInfoState extends State<EduInfo> {
     'More than Rs. 10 Lakh',
   ];
 
+  late String selectedQualification = qualification[0];
+  late String selectedWorkWith = workWith[0];
+  late String selectedWorkAs = workAs[0];
+  late String selectedAnnualIncome = annualIncome[0];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,20 +97,46 @@ class _EduInfoState extends State<EduInfo> {
               ),
               spacing,
               CustomDropDown(
-                  optionList: qualification, selectedOption: qualification[0]),
+                optionList: qualification,
+                selectedOption: selectedQualification,
+                onChanged: (p0) => setState(() {
+                  selectedQualification = p0!;
+                }),
+              ),
               spacing,
-              CustomDropDown(optionList: workWith, selectedOption: workWith[0]),
+              CustomDropDown(
+                optionList: workWith,
+                selectedOption: selectedWorkWith,
+                onChanged: (p0) => setState(() {
+                  selectedWorkWith = p0!;
+                }),
+              ),
               spacing,
-              CustomDropDown(optionList: workAs, selectedOption: workAs[0]),
+              CustomDropDown(
+                optionList: workAs,
+                selectedOption: selectedWorkAs,
+                onChanged: (p0) => setState(() {
+                  selectedWorkAs = p0!;
+                }),
+              ),
               spacing,
               CustomDropDown(
                 optionList: annualIncome,
-                selectedOption: annualIncome[0],
+                selectedOption: selectedAnnualIncome,
+                onChanged: (p0) => setState(() {
+                  selectedAnnualIncome = p0!;
+                }),
               ),
               spacing,
               PrimaryButton(
                 title: 'Continue',
                 onPressed: () {
+                  context.read<AuthController>().setRegistrationPage4Details(
+                        selectedQualification,
+                        selectedWorkWith,
+                        selectedWorkAs,
+                        selectedAnnualIncome,
+                      );
                   context.goNamed('profile-info');
                 },
               ),
