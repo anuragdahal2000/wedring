@@ -1,98 +1,81 @@
-import 'dart:convert';
+import 'package:json_annotation/json_annotation.dart';
+part 'user.g.dart';
 
-UserResponse userResponseFromJson(String str) =>
-    UserResponse.fromJson(json.decode(str));
-
-String userResponseToJson(UserResponse data) => json.encode(data.toJson());
-
-class UserResponse {
-  User user;
-  Tokens tokens;
-
-  UserResponse({
-    required this.user,
-    required this.tokens,
-  });
-
-  factory UserResponse.fromJson(Map<String, dynamic> json) => UserResponse(
-        user: User.fromJson(json["user"]),
-        tokens: Tokens.fromJson(json["tokens"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "user": user.toJson(),
-        "tokens": tokens.toJson(),
-      };
-}
-
-class Tokens {
-  Access access;
-  Access refresh;
-
-  Tokens({
-    required this.access,
-    required this.refresh,
-  });
-
-  factory Tokens.fromJson(Map<String, dynamic> json) => Tokens(
-        access: Access.fromJson(json["access"]),
-        refresh: Access.fromJson(json["refresh"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "access": access.toJson(),
-        "refresh": refresh.toJson(),
-      };
-}
-
-class Access {
-  String token;
-  DateTime expires;
-
-  Access({
-    required this.token,
-    required this.expires,
-  });
-
-  factory Access.fromJson(Map<String, dynamic> json) => Access(
-        token: json["token"],
-        expires: DateTime.parse(json["expires"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "token": token,
-        "expires": expires.toIso8601String(),
-      };
-}
-
+@JsonSerializable()
 class User {
-  String role;
-  bool isEmailVerified;
-  String email;
-  String name;
-  String id;
+  final String uuid;
+  final String name;
+  final String email;
+  final String phone;
+  final DateTime? dateOfBirth;
+  final String gender;
+  final String religion;
+  final String community;
+  // final String country;
+  final String state;
+  final String city;
+  final MaritalStatus maritalStatus;
+  final FoodPreference foodPreference;
+  final String height;
+  final String weight;
+  final String education;
+  final String occupationSector;
+  final String occupation;
+  final String annualIncome;
+  final String about;
+  final String? profileImage;
+  final List<String> interests;
+  final List<String> friends;
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   User({
-    required this.role,
-    required this.isEmailVerified,
-    required this.email,
+    required this.uuid,
     required this.name,
-    required this.id,
+    required this.email,
+    required this.phone,
+    this.dateOfBirth,
+    required this.gender,
+    required this.religion,
+    required this.community,
+    // required this.country,
+    required this.state,
+    required this.city,
+    required this.maritalStatus,
+    required this.foodPreference,
+    required this.height,
+    required this.weight,
+    required this.education,
+    required this.occupationSector,
+    required this.occupation,
+    required this.annualIncome,
+    required this.about,
+    this.profileImage,
+    required this.interests,
+    this.friends = const [],
   });
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
-        role: json["role"],
-        isEmailVerified: json["isEmailVerified"],
-        email: json["email"],
-        name: json["name"],
-        id: json["id"],
-      );
+  Map<String, dynamic> toJson() => _$UserToJson(this);
+}
 
-  Map<String, dynamic> toJson() => {
-        "role": role,
-        "isEmailVerified": isEmailVerified,
-        "email": email,
-        "name": name,
-        "id": id,
-      };
+enum MaritalStatus {
+  @JsonValue('Married')
+  married,
+  @JsonValue('Never Married')
+  single,
+  @JsonValue('Divorced')
+  divorced,
+  @JsonValue('Widowed')
+  widowed,
+}
+
+enum FoodPreference {
+  @JsonValue('Vegetarian')
+  vegetarian,
+  @JsonValue('Non-Vegetarian')
+  nonVegetarian,
+  @JsonValue('Vegan')
+  vegan,
+  @JsonValue('Eggetarian')
+  eggetarian,
 }
