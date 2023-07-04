@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wedring/components/custom_textfield.dart';
 import 'package:wedring/components/primary_button.dart';
 import 'package:wedring/controllers/auth.dart';
-import 'package:wedring/util/constant.dart';
+import 'package:wedring/utils/constant.dart';
+import 'package:wedring/utils/helper.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -22,6 +24,8 @@ class _SignInState extends State<SignIn> {
   final TextEditingController _passwordController = TextEditingController();
 
   final TextEditingController _emailController = TextEditingController();
+
+  late FirebaseAuthException? _authException;
 
   @override
   void dispose() {
@@ -70,9 +74,17 @@ class _SignInState extends State<SignIn> {
                           Icons.person_outline,
                         ),
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your email';
+                          bool emailValid = RegExp(
+                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              .hasMatch(value!);
+
+                          if (value.isEmpty) {
+                            return 'Please Enter Email';
                           }
+                          if (!emailValid) {
+                            return 'Please Enter Valid Email';
+                          }
+
                           return null;
                         },
                       ),
@@ -146,11 +158,16 @@ class _SignInState extends State<SignIn> {
                   title: 'Login',
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      AuthService.login(
-                        _emailController.text,
-                        _passwordController.text,
-                      );
-                      // context.goNamed('home');
+                      _authException = await AuthController().signIn(
+                          _emailController.text, _passwordController.text);
+                      if (_authException != null) {
+                        showSnackBar(_authException!.message!,
+                            type: SnackType.error);
+                      }
+                      if (FirebaseAuth.instance.currentUser != null) {
+                        if (!mounted) return;
+                        context.goNamed('home');
+                      }
                     }
                   },
                 ),
