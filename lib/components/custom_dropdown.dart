@@ -1,30 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:wedring/utils/constant.dart';
 
-class CustomDropDown extends StatefulWidget {
-  final List<String> optionList;
-  final dynamic selectedOption;
+class CustomDropDown<T> extends StatefulWidget {
+  final List<T> optionList;
+  final T selectedOption;
   final String? helperText;
+  final void Function(T?)? onChanged;
 
   const CustomDropDown({
     super.key,
     required this.optionList,
     required this.selectedOption,
     this.helperText,
+    this.onChanged,
   });
 
   @override
-  State<CustomDropDown> createState() => _CustomDropDownState();
+  State<CustomDropDown<T>> createState() => _CustomDropDownState<T>();
 }
 
-class _CustomDropDownState extends State<CustomDropDown> {
-  dynamic _value;
-  @override
-  void initState() {
-    super.initState();
-    _value = widget.selectedOption;
-  }
-
+class _CustomDropDownState<T> extends State<CustomDropDown<T>> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -47,29 +42,25 @@ class _CustomDropDownState extends State<CustomDropDown> {
               color: kTeritary1,
             ),
           ),
-          child: DropdownButton<String>(
+          child: DropdownButton<T>(
             elevation: 12,
             isExpanded: true,
             borderRadius: BorderRadius.circular(
               8.0,
             ),
             underline: const SizedBox.shrink(),
-            value: _value,
+            value: widget.selectedOption,
             icon: const Icon(Icons.keyboard_arrow_down),
             style: kRegular14.copyWith(
               color: kTeritary1,
             ),
-            onChanged: (String? value) {
-              setState(() {
-                _value = value!;
-              });
-            },
-            items:
-                widget.optionList.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
+            onChanged: widget.onChanged,
+            items: widget.optionList.map<DropdownMenuItem<T>>((T value) {
+              return DropdownMenuItem<T>(
+                  value: value,
+                  child: Text(
+                    value.toString(),
+                  ));
             }).toList(),
           ),
         ),
