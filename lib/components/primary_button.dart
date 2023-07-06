@@ -52,9 +52,15 @@ class PrimaryButton extends StatelessWidget {
           ),
           onPressed: onPressed,
           child: Row(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
             children: [
               icon ?? const SizedBox(),
+              (icon != null)
+                  ? SizedBox(
+                      width: horizontalIconSpace,
+                    )
+                  : const SizedBox.shrink(),
               Text(
                 title!,
                 style: kSemiBold16.copyWith(
@@ -77,7 +83,7 @@ class PrimaryButton extends StatelessWidget {
               shape: _buttonShape),
           onPressed: null,
           child: Row(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.max,
             children: [
               icon ?? const SizedBox(),
               Text(
@@ -97,7 +103,7 @@ class PrimaryButton extends StatelessWidget {
           ),
           onPressed: onPressed,
           child: Row(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.max,
             children: [
               icon ?? const SizedBox(),
               Text(
