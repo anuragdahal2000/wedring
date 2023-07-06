@@ -1,13 +1,18 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wedring/utils/constant.dart';
 
 import '../Info/intrests.dart';
 
-class Profile extends StatelessWidget {
-  Profile({super.key});
+class Profile extends StatefulWidget {
+  const Profile({super.key});
 
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
   final List<IntrestModel> _intrest = [
     IntrestModel(name: 'Photography', icon: Icons.camera_alt_outlined),
     IntrestModel(name: 'Music', icon: Icons.music_note_outlined),
@@ -17,42 +22,58 @@ class Profile extends StatelessWidget {
     IntrestModel(name: 'Sports', icon: Icons.sports_basketball_outlined),
   ];
 
+  late User currentUser = FirebaseAuth.instance.currentUser!;
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          margin: const EdgeInsets.only(top: 20, bottom: 20),
-          height: 200,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.grey[300],
-            borderRadius: BorderRadius.circular(10),
-            image: DecorationImage(
-              image: AssetImage('assets/images/onboard/1.jpg'),
-              fit: BoxFit.cover,
+        CachedNetworkImage(
+          imageUrl: currentUser.photoURL!,
+          imageBuilder: (context, imageProvider) => Container(
+            margin: const EdgeInsets.only(top: 20, bottom: 20),
+            height: 200,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.grey[300],
+              borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(
+                image: imageProvider,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
+          placeholder: (context, url) => const Center(
+            child: CircularProgressIndicator(),
+          ),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
         ),
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 Text(
-                  'John Doe',
+                  currentUser.displayName ?? 'John Doe',
                   style: kBold18,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
-                Icon(
-                  Icons.verified,
-                  color: Colors.green,
-                )
+                currentUser.emailVerified
+                    ? const Icon(
+                        Icons.verified,
+                        color: Colors.green,
+                      )
+                    : const SizedBox()
               ],
             ),
-            Row(
+            Text(
+              currentUser.email!,
+              style: kMedium12,
+            ),
+            const Row(
               children: [
                 Icon(
                   Icons.location_on,
@@ -69,9 +90,9 @@ class Profile extends StatelessWidget {
             ),
           ],
         ),
-        Divider(),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12.0),
+        const Divider(),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 12.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -86,22 +107,22 @@ class Profile extends StatelessWidget {
             ],
           ),
         ),
-        Divider(),
+        const Divider(),
         const SizedBox(
           height: 10,
         ),
-        Text(
+        const Text(
           'About Me',
           style: kBold16,
         ),
-        Text(
+        const Text(
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl.',
         ),
         const SizedBox(
           height: 10,
         ),
-        Divider(),
-        Text(
+        const Divider(),
+        const Text(
           'My Interests',
           style: kBold16,
         ),
