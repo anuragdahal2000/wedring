@@ -3,7 +3,10 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:wedring/components/custom_textfield.dart';
 import 'package:wedring/components/primary_button.dart';
+import 'package:wedring/controllers/auth.dart';
 import 'package:wedring/utils/constant.dart';
+import 'package:provider/provider.dart';
+import 'package:wedring/utils/helper.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -71,13 +74,38 @@ class _SignUpState extends State<SignUp> {
                   ),
                   buildFormWidget(),
                   const SizedBox(
-                    height: 24,
+                    height: 12,
                   ),
                   PrimaryButton(
-                    title: 'Continue',
+                    title: 'Submit',
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {}
-                      context.goNamed('signup-2');
+                      if (_formKey.currentState!.validate() &&
+                          selectedDate != null) {
+                        context
+                            .read<AuthController>()
+                            .createUser(
+                              _email.text,
+                              _passwordController.text,
+                            )
+                            .then((result) {
+                          if (result.user != null) {
+                            result.user!.updateDisplayName(_username.text);
+                            context
+                                .read<AuthController>()
+                                .setRegistrationPage1Details(
+                                  _phoneController.text,
+                                  selectedDate!,
+                                  result.user!.uid,
+                                );
+                            context.goNamed('signup-details');
+                          }
+                        });
+                      } else if (selectedDate == null) {
+                        showSnackBar(
+                          'Please select date of birth',
+                          type: SnackType.error,
+                        );
+                      }
                     },
                   ),
                 ],
@@ -100,13 +128,13 @@ class _SignUpState extends State<SignUp> {
             controller: _username,
             validator: (value) {
               if (value!.isEmpty) {
-                return 'Please enter Your Name';
+                return 'Please enter your name';
               }
               return null;
             },
           ),
           const SizedBox(
-            height: 24,
+            height: 12,
           ),
           CustomTextField(
             prefixIcon: const Icon(Icons.email_outlined),
@@ -114,14 +142,22 @@ class _SignUpState extends State<SignUp> {
             hintText: 'Email',
             keyboardType: TextInputType.emailAddress,
             validator: (value) {
-              if (value!.isEmpty) {
-                return 'Please enter Your Email';
+              bool emailValid = RegExp(
+                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                  .hasMatch(value!);
+
+              if (value.isEmpty) {
+                return 'Please enter email';
               }
+              if (!emailValid) {
+                return 'Please enter valid email';
+              }
+
               return null;
             },
           ),
           const SizedBox(
-            height: 24,
+            height: 12,
           ),
           CustomTextField(
             prefixIcon: const Icon(Icons.phone),
@@ -130,13 +166,13 @@ class _SignUpState extends State<SignUp> {
             keyboardType: TextInputType.phone,
             validator: (value) {
               if (value!.isEmpty) {
-                return 'Please enter Your Phone';
+                return 'Please enter your phone';
               }
               return null;
             },
           ),
           const SizedBox(
-            height: 24,
+            height: 12,
           ),
           CustomTextField(
             validator: (value) {
@@ -154,7 +190,7 @@ class _SignUpState extends State<SignUp> {
             obscureText: true,
           ),
           const SizedBox(
-            height: 24,
+            height: 12,
           ),
           CustomTextField(
             controller: _confirmPasswordController,
@@ -166,7 +202,7 @@ class _SignUpState extends State<SignUp> {
                 return 'Please enter atleast 8 digits';
               }
               if (_passwordController.text != _confirmPasswordController.text) {
-                return 'Password doesnot match';
+                return 'Password does not match';
               }
               return null;
             },
@@ -176,7 +212,7 @@ class _SignUpState extends State<SignUp> {
             obscureText: true,
           ),
           const SizedBox(
-            height: 24,
+            height: 12,
           ),
           SizedBox(
             width: double.infinity,

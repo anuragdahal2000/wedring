@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:wedring/components/primary_button.dart';
+import 'package:wedring/controllers/auth.dart';
 import 'package:wedring/utils/constant.dart';
 
 class ProfileInfo extends StatefulWidget {
@@ -11,6 +16,8 @@ class ProfileInfo extends StatefulWidget {
 }
 
 class _ProfileInfoState extends State<ProfileInfo> {
+  final ImagePicker picker = ImagePicker();
+  XFile? image;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,13 +37,15 @@ class _ProfileInfoState extends State<ProfileInfo> {
                 children: [
                   //User able to upload image or take a picture
                   const Spacer(),
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 80,
                     backgroundColor: Colors.grey,
-                    child: Icon(
-                      Icons.camera_alt,
-                      size: 40,
-                    ),
+                    child: image == null
+                        ? const Icon(
+                            Icons.camera_alt,
+                            size: 40,
+                          )
+                        : Image.file(File(image!.path)),
                   ),
                   const SizedBox(
                     height: 20,
@@ -58,7 +67,12 @@ class _ProfileInfoState extends State<ProfileInfo> {
                   ),
                   PrimaryButton(
                     title: 'Add From Gallery',
-                    onPressed: () {},
+                    onPressed: () async {
+                      image = await picker.pickImage(
+                        source: ImageSource.gallery,
+                      );
+                      setState(() {});
+                    },
                     icon: const Icon(
                       Icons.photo,
                       color: Colors.white,
@@ -72,13 +86,33 @@ class _ProfileInfoState extends State<ProfileInfo> {
                     child: PrimaryButton(
                       variant: Variant.teritary,
                       title: 'Take a Picture',
-                      onPressed: () {},
+                      onPressed: () async {
+                        image = await picker.pickImage(
+                          source: ImageSource.camera,
+                        );
+                        setState(() {});
+                      },
                       icon: const Icon(
                         Icons.camera_alt,
                       ),
                     ),
                   ),
                   const Spacer(),
+                  image != null
+                      ? SizedBox(
+                          width: double.infinity,
+                          child: PrimaryButton(
+                            variant: Variant.outline,
+                            title: 'Proceed',
+                            onPressed: () {
+                              context
+                                  .read<AuthController>()
+                                  .uploadProfileImage(image!.path);
+                              context.goNamed('interests');
+                            },
+                          ),
+                        )
+                      : const SizedBox.shrink(),
                   PrimaryButton(
                     variant: Variant.teritary,
                     title: 'Skip for now',

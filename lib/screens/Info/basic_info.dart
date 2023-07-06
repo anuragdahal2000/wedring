@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wedring/components/custom_dropdown.dart';
@@ -137,10 +138,10 @@ class _BasicInfoState extends State<BasicInfo> {
                             foodPreference,
                             heightController.text,
                             weightController.text,
+                            FirebaseAuth.instance.currentUser!.uid,
                           );
+                      context.goNamed('edu-info');
                     }
-                    //TODO: MOVE UP
-                    context.goNamed('edu-info');
                   },
                 ),
               ],

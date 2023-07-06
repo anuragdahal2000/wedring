@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wedring/controllers/auth.dart';
@@ -129,13 +130,14 @@ class _EduInfoState extends State<EduInfo> {
               ),
               spacing,
               PrimaryButton(
-                title: 'Continue',
+                title: 'Submit',
                 onPressed: () {
                   context.read<AuthController>().setRegistrationPage4Details(
                         selectedQualification,
                         selectedWorkWith,
                         selectedWorkAs,
                         selectedAnnualIncome,
+                        FirebaseAuth.instance.currentUser!.uid,
                       );
                   context.goNamed('profile-info');
                 },

@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wedring/components/custom_dropdown.dart';
 import 'package:wedring/components/primary_button.dart';
+import 'package:wedring/controllers/auth.dart';
 import 'package:wedring/utils/constant.dart';
-import 'package:wedring/utils/helper.dart';
+import 'package:provider/provider.dart';
 
 class SignUp2 extends StatefulWidget {
   const SignUp2({super.key});
@@ -17,17 +19,50 @@ class _SignUp2State extends State<SignUp2> {
 
   final _formKey = GlobalKey<FormState>();
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  List<String> religionList = [
+    'Hindu',
+    'Muslim',
+    'Christian',
+    'Sikh',
+    'Buddhist',
+    'Jain',
+    'Other'
+  ];
+  List<String> communityList = [
+    'Brahmin',
+    'Kshatriya',
+    'Vaishya',
+    'Shudra',
+    'Other'
+  ];
+  List<String> states = [
+    'Bagmati',
+    'Gandaki',
+    'Karnali',
+    'Lumbini',
+    'Province No. 1',
+    'Province No. 2',
+  ];
+  List<String> cities = [
+    'Kathmandu',
+    'Lalitpur',
+    'Bhaktapur',
+    'Pokhara',
+  ];
+  List<String> gender = ['Male', 'Female', 'Others'];
+
+  late String selectedGender = gender[0];
+  late String selectedReligion = religionList[0];
+  late String selectedCommunity = communityList[0];
+  late String selectedState = states[0];
+  late String selectedCity = cities[0];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Sign Up',
+          'More about you',
         ),
       ),
       body: Column(
@@ -51,125 +86,95 @@ class _SignUp2State extends State<SignUp2> {
                 const SizedBox(
                   height: 12,
                 ),
-                buildFormWidget(),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomDropDown(
+                        helperText: 'Gender',
+                        optionList: gender,
+                        selectedOption: selectedGender,
+                        onChanged: (p0) {
+                          setState(() {
+                            selectedGender = p0!;
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      CustomDropDown(
+                        helperText: 'State',
+                        optionList: states,
+                        selectedOption: selectedState,
+                        onChanged: (p0) => setState(() {
+                          selectedState = p0!;
+                        }),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      CustomDropDown(
+                        helperText: 'City',
+                        optionList: cities,
+                        selectedOption: selectedCity,
+                        onChanged: (p0) => setState(() {
+                          selectedCity = p0!;
+                        }),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      CustomDropDown(
+                        helperText: 'Religion',
+                        optionList: religionList,
+                        selectedOption: selectedReligion,
+                        onChanged: (p0) {
+                          setState(() {
+                            selectedReligion = p0!;
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      CustomDropDown(
+                        helperText: 'Community',
+                        optionList: communityList,
+                        selectedOption: selectedCommunity,
+                        onChanged: (p0) {
+                          setState(() {
+                            selectedCommunity = p0!;
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                    ],
+                  ),
+                ),
                 PrimaryButton(
-                  title: 'Submit',
+                  title: 'Continue',
                   onPressed: () {
-                    if (checkboxValue) {
+                    if (_formKey.currentState!.validate()) {
+                      context
+                          .read<AuthController>()
+                          .setRegistrationPage2Details(
+                            selectedGender,
+                            selectedReligion,
+                            selectedCommunity,
+                            selectedState,
+                            selectedCity,
+                            FirebaseAuth.instance.currentUser!.uid,
+                          );
                       context.goNamed('basic-info');
-                      // if (_formKey.currentState!.validate()) {
-                      //   AuthService.register(
-                      //     _email.text,
-                      //     _phoneController.text,
-                      //     _passwordController.text,
-                      //     _username.text,
-                      //   );
-                      // }
-                    } else {
-                      showSnackBar(
-                        'Please accept the terms and conditions to proceed',
-                      );
                     }
                   },
                 ),
               ],
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Form buildFormWidget() {
-    List<String> religionList = [
-      'Hindu',
-      'Muslim',
-      'Christian',
-      'Sikh',
-      'Buddhist',
-      'Jain',
-      'Other'
-    ];
-    List<String> communityList = [
-      'Brahmin',
-      'Kshatriya',
-      'Vaishya',
-      'Shudra',
-      'Other'
-    ];
-    List<String> livingIn = [
-      'Nepal',
-      'India',
-      'UK',
-      'Canada',
-      'Australia',
-      'New Zealand',
-      'Other'
-    ];
-    List<String> gender = ['Male', 'Female', 'Others'];
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CustomDropDown(
-            helperText: 'Gender',
-            optionList: gender,
-            selectedOption: gender[0],
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          CustomDropDown(
-            helperText: 'Religion',
-            optionList: religionList,
-            selectedOption: religionList[0],
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          CustomDropDown(
-            helperText: 'Community',
-            optionList: communityList,
-            selectedOption: communityList[0],
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          CustomDropDown(
-            helperText: 'Living In',
-            optionList: livingIn,
-            selectedOption: livingIn[0],
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 20.0,
-                child: Transform.scale(
-                  scale: 0.8,
-                  child: Checkbox(
-                    value: checkboxValue,
-                    onChanged: (newValue) {
-                      setState(() {
-                        checkboxValue = newValue!;
-                      });
-                    },
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              const Text(
-                'I agree to given Terms and Conditions ',
-                style: kRegular14,
-              ),
-            ],
           ),
         ],
       ),
