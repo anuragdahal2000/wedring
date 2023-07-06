@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wedring/screens/Info/basic_info.dart';
@@ -17,7 +18,7 @@ import 'package:wedring/screens/onboarding/onboard.dart';
 import 'package:wedring/screens/profile/profile.dart';
 import 'package:wedring/screens/settings/settings.dart';
 import 'package:wedring/screens/signup/sign_up_2.dart';
-import 'package:wedring/util/helper.dart';
+import 'package:wedring/utils/helper.dart';
 
 import 'screens/home/home.dart';
 
@@ -27,7 +28,10 @@ class AppRouter {
   static GoRouter router = GoRouter(
     navigatorKey: AppManager.navigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: "/home",
+    // redirect: (context, state) {
+    //   return FirebaseAuth.instance.currentUser != null ? '/home' : '/signin';
+    // },
+    initialLocation: "/signin",
     errorBuilder: (context, state) => Scaffold(
       body: Center(
         child: Text(state.error.toString()),
@@ -75,41 +79,35 @@ class AppRouter {
         name: 'signup',
         path: '/signup',
         builder: (context, state) => const SignUp(),
+      ),
+      GoRoute(
+        name: 'signup-details',
+        path: '/signup-details',
+        builder: (context, state) => const SignUp2(),
         routes: [
           GoRoute(
-            name: 'signup-2',
-            path: 'signup-2',
-            builder: (context, state) => const SignUp2(),
+            name: 'basic-info',
+            path: 'basic-info',
+            builder: (context, state) => const BasicInfo(),
             routes: [
               GoRoute(
-                name: 'basic-info',
-                path: 'basic-info',
-                builder: (context, state) => const BasicInfo(),
-                routes: [
-                  GoRoute(
-                    name: 'edu-info',
-                    path: 'edu-info',
-                    builder: (context, state) => const EduInfo(),
-                    routes: [
-                      GoRoute(
-                        name: 'profile-info',
-                        path: 'profile-info',
-                        builder: (context, state) => const ProfileInfo(),
-                        routes: [
-                          GoRoute(
-                            name: 'interests',
-                            path: 'interests',
-                            builder: (context, state) => const IntrestScreen(),
-                          ),
-                        ],
-                      ),
-                    ],
-                  )
-                ],
-              ),
+                name: 'edu-info',
+                path: 'edu-info',
+                builder: (context, state) => const EduInfo(),
+              )
             ],
-          )
+          ),
         ],
+      ),
+      GoRoute(
+        name: 'interests',
+        path: '/interests',
+        builder: (context, state) => const IntrestScreen(),
+      ),
+      GoRoute(
+        name: 'profile-info',
+        path: '/profile-info',
+        builder: (context, state) => const ProfileInfo(),
       ),
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
@@ -142,7 +140,7 @@ class AppRouter {
             name: 'profile',
             path: '/profile',
             pageBuilder: (context, state) {
-              return NoTransitionPage(
+              return const NoTransitionPage(
                 child: Profile(),
               );
             },
