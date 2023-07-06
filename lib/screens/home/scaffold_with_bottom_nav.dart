@@ -36,7 +36,7 @@ class _ScaffoldWithBottomNav extends State<ScaffoldWithBottomNav> {
     ),
     const ScaffoldWithNavBarTabItem(
       initialLocation: '/my-matches',
-      icon: Icon(Icons.heat_pump_sharp),
+      icon: Icon(Icons.auto_awesome),
       label: 'My Matches',
     ),
     const ScaffoldWithNavBarTabItem(
@@ -56,8 +56,11 @@ class _ScaffoldWithBottomNav extends State<ScaffoldWithBottomNav> {
     return Scaffold(
       key: AppManager.scaffoldKey,
       appBar: AppBar(
-        leading: Image.asset(
-          'assets/images/logo.png',
+        leading: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Image.asset(
+            'assets/images/logo.png',
+          ),
         ),
         title: Text(
           tabs[_currentIndex].label!,

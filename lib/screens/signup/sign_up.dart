@@ -93,6 +93,8 @@ class _SignUpState extends State<SignUp> {
                             context
                                 .read<AuthController>()
                                 .setRegistrationPage1Details(
+                                  _username.text,
+                                  _email.text,
                                   _phoneController.text,
                                   selectedDate!,
                                   result.user!.uid,
