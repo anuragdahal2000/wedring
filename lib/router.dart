@@ -10,13 +10,13 @@ import 'package:wedring/screens/auth/new_password.dart';
 import 'package:wedring/screens/auth/opt_verification.dart';
 import 'package:wedring/screens/auth/sign_in.dart';
 import 'package:wedring/screens/chat/chat_list.dart';
+import 'package:wedring/screens/profile/profile_details.dart';
 import 'package:wedring/screens/signup/sign_up.dart';
 import 'package:wedring/screens/chat/single_chat.dart';
 import 'package:wedring/screens/home/scaffold_with_bottom_nav.dart';
 import 'package:wedring/screens/matches/match.dart';
 import 'package:wedring/screens/onboarding/onboard.dart';
 import 'package:wedring/screens/profile/profile.dart';
-import 'package:wedring/screens/settings/settings.dart';
 import 'package:wedring/screens/signup/sign_up_2.dart';
 import 'package:wedring/utils/helper.dart';
 
@@ -28,10 +28,8 @@ class AppRouter {
   static GoRouter router = GoRouter(
     navigatorKey: AppManager.navigatorKey,
     debugLogDiagnostics: true,
-    // redirect: (context, state) {
-    //   return FirebaseAuth.instance.currentUser != null ? '/home' : '/signin';
-    // },
-    initialLocation: "/signin",
+    initialLocation:
+        FirebaseAuth.instance.currentUser != null ? '/home' : '/signin',
     errorBuilder: (context, state) => Scaffold(
       body: Center(
         child: Text(state.error.toString()),
@@ -145,10 +143,15 @@ class AppRouter {
               );
             },
             routes: [
+              // GoRoute(
+              //   name: 'settings',
+              //   path: 'settings',
+              //   builder: (context, state) => const Settings(),
+              // ),
               GoRoute(
-                name: 'settings',
-                path: 'settings',
-                builder: (context, state) => const Settings(),
+                name: 'profile-details',
+                path: 'profile-details',
+                builder: (context, state) => const ProfileDetails(),
               ),
             ],
           ),
@@ -156,8 +159,13 @@ class AppRouter {
       ),
       GoRoute(
         name: 'single-chat',
-        path: '/single-chat',
-        builder: (context, state) => const SingleChat(),
+        path: '/single-chat/:id',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] as String;
+          return SingleChat(
+            userId: id,
+          );
+        },
       ),
     ],
   );

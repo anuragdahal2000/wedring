@@ -8,6 +8,7 @@ import 'package:wedring/models/user.dart';
 import 'package:wedring/utils/helper.dart';
 
 import '../utils/collection_helper.dart';
+import 'package:wedring/models/user.dart' as user;
 
 class AuthController extends ChangeNotifier {
   final _auth = FirebaseAuth.instance;
@@ -55,8 +56,12 @@ class AuthController extends ChangeNotifier {
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  void setRegistrationPage1Details(String phone, DateTime dob, String userId) {
+  void setRegistrationPage1Details(
+      String name, String email, String phone, DateTime dob, String userId) {
     _firestore.collection(CollectionHelper.userCollection).doc(userId).set({
+      'uid': userId,
+      'name': name,
+      'email': email,
       'dateOfBirth': dob,
       'phone': phone,
     });
@@ -87,8 +92,8 @@ class AuthController extends ChangeNotifier {
     String userId,
   ) {
     _firestore.collection(CollectionHelper.userCollection).doc(userId).update({
-      'maritalStatus': maritalStatus.name,
-      'foodPreference': foodPreference.name,
+      'maritalStatus': user.User.maritalStatusToJson(maritalStatus),
+      'foodPreference': user.User.foodPreferenceToJson(foodPreference),
       'height': height,
       'weight': weight,
     });
@@ -123,6 +128,12 @@ class AuthController extends ChangeNotifier {
       final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         FirebaseAuth.instance.currentUser!.updatePhotoURL(profileUrl);
+        _firestore
+            .collection(CollectionHelper.userCollection)
+            .doc(user.uid)
+            .update({
+          'profileImage': profileUrl,
+        });
       }
     } on FirebaseException catch (e) {
       showSnackBar(e.message!, type: SnackType.error);
