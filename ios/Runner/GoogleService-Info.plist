@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>288562079657-lnrmdt5hinb66q53l1r50sq78u8826dc.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.288562079657-lnrmdt5hinb66q53l1r50sq78u8826dc</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAI0CNTBZfyww2-X9wLdy-ZyzAWvBbP_Vo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>288562079657</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.wedring</string>
+	<key>PROJECT_ID</key>
+	<string>wedring-96848</string>
+	<key>STORAGE_BUCKET</key>
+	<string>wedring-96848.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:288562079657:ios:e4637a0e6267d65d4806b8</string>
+</dict>
+</plist>
