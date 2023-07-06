@@ -37,6 +37,7 @@ dependencies:
   json_serializable: ^6.7.1
   firebase_storage: ^11.2.4
   image_picker: ^1.0.0
+  cached_network_image: ^3.2.3
 
 dev_dependencies:
   flutter_test:
