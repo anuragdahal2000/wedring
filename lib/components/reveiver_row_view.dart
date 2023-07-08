@@ -3,19 +3,24 @@ import 'package:intl/intl.dart';
 import 'package:wedring/models/message.dart';
 
 class ReceiverRowView extends StatelessWidget {
-  // const ReceiverRowView({Key? key, required this.index}) : super(key: key);
-
-  // final int index;
   final Message message;
 
-  const ReceiverRowView({super.key, required this.message});
+  final String? displayPictureURL;
+
+  const ReceiverRowView({
+    super.key,
+    required this.message,
+    this.displayPictureURL,
+  });
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: const Padding(
-        padding: EdgeInsets.only(bottom: 10),
+      leading: Padding(
+        padding: const EdgeInsets.only(bottom: 10),
         child: CircleAvatar(
-          backgroundImage: NetworkImage('https://picsum.photos/250?image=9'),
+          backgroundImage: NetworkImage(
+              displayPictureURL ?? 'https://picsum.photos/250?image=9'),
         ),
       ),
       title: Wrap(

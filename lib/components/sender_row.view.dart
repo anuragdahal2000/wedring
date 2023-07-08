@@ -3,12 +3,11 @@ import 'package:intl/intl.dart';
 import 'package:wedring/models/message.dart';
 
 class SenderRowView extends StatelessWidget {
-  // const SenderRowView({Key? key, required this.index}) : super(key: key);
-
-  // final int index;
   final Message message;
+  final String? displayPictureURL;
 
-  const SenderRowView({super.key, required this.message});
+  const SenderRowView(
+      {super.key, required this.message, required this.displayPictureURL});
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +20,12 @@ class SenderRowView extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(10),
           decoration: const BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: Color(0xffD11C2D),
-              borderRadius: BorderRadius.all(Radius.circular(20))),
+            shape: BoxShape.rectangle,
+            color: Color(0xffD11C2D),
+            borderRadius: BorderRadius.all(
+              Radius.circular(20),
+            ),
+          ),
           child: Text(
             message.text,
             textAlign: TextAlign.left,
@@ -40,8 +42,9 @@ class SenderRowView extends StatelessWidget {
           style: const TextStyle(fontSize: 10),
         ),
       ),
-      trailing: const CircleAvatar(
-        backgroundImage: NetworkImage('https://picsum.photos/250?image=9'),
+      trailing: CircleAvatar(
+        backgroundImage: NetworkImage(
+            displayPictureURL ?? 'https://picsum.photos/250?image=9'),
       ),
     );
   }
