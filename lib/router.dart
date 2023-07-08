@@ -21,6 +21,7 @@ import 'package:wedring/screens/signup/sign_up_2.dart';
 import 'package:wedring/utils/helper.dart';
 
 import 'screens/home/home.dart';
+import 'package:wedring/models/user.dart' as u;
 
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -123,7 +124,7 @@ class AppRouter {
           GoRoute(
             name: 'my-matches',
             path: '/my-matches',
-            pageBuilder: (context, state) => NoTransitionPage(
+            pageBuilder: (context, state) => const NoTransitionPage(
               child: MyMatches(),
             ),
           ),
@@ -159,11 +160,14 @@ class AppRouter {
       ),
       GoRoute(
         name: 'single-chat',
-        path: '/single-chat/:id',
+        path: '/single-chat/:chatId',
         builder: (context, state) {
-          final id = state.pathParameters['id'] as String;
+          final id = state.pathParameters['chatId'] as String;
+          final isNewChat = state.queryParameters['new'] == 'true';
           return SingleChat(
-            userId: id,
+            chatId: id,
+            participant: state.extra as u.User,
+            isNewChat: isNewChat,
           );
         },
       ),
