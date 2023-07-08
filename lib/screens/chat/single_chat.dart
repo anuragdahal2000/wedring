@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,16 +13,17 @@ import '../../components/sender_row.view.dart';
 import 'package:wedring/models/user.dart' as user;
 
 class SingleChat extends StatefulWidget {
-  final String chatId;
+  final String? chatId;
   final user.User participant;
   final bool isNewChat;
 
   const SingleChat({
     super.key,
-    required this.chatId,
+    this.chatId,
     required this.participant,
     this.isNewChat = false,
   });
+  // : assert(isNewChat == true ? chatId == null : true);
 
   @override
   SingleChatState createState() => SingleChatState();
@@ -30,21 +32,7 @@ class SingleChat extends StatefulWidget {
 class SingleChatState extends State<SingleChat> {
   var controller = TextEditingController();
   var scrollController = ScrollController();
-  var message = '';
-  // final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  // void sendMessage(String message, String chatId, String userId) {
-  //   _firestore.collection('chat').doc(chatId).set({
-  //     "lastSentAt": DateTime.now(),
-  //     "lastMessage": message,
-  //     "messages": FieldValue.arrayUnion([
-  //       Message(
-  //         senderId: userId,
-  //         text: message,
-  //         timestamp: DateTime.now(),
-  //       ).toJson()
-  //     ]),
-  //   }, SetOptions(merge: true));
-  // }
+
   final ChatController chatController = ChatController();
 
   void animateList() {
@@ -57,7 +45,6 @@ class SingleChatState extends State<SingleChat> {
     });
   }
 
-  // List<ChatModel> chatModelList = [];
   FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
@@ -72,11 +59,14 @@ class SingleChatState extends State<SingleChat> {
         ),
         titleSpacing: 0,
         title: ListTile(
-          leading: const CircleAvatar(
-            backgroundImage: NetworkImage(
-              'https://picsum.photos/250?image=9',
-            ),
-          ),
+          leading: widget.isNewChat
+              ? const SizedBox.shrink()
+              : CircleAvatar(
+                  backgroundImage: NetworkImage(
+                    widget.participant.profileImage ??
+                        'https://picsum.photos/250?image=9',
+                  ),
+                ),
           title: Text(
             widget.participant.name,
             style: const TextStyle(
@@ -84,29 +74,55 @@ class SingleChatState extends State<SingleChat> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          subtitle: const Text(
-            'online',
-            style: TextStyle(color: Colors.white),
-          ),
         ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 20),
-            child: Icon(Icons.videocam_rounded),
-          ),
-          Padding(
-            padding: EdgeInsets.only(right: 20),
-            child: Icon(Icons.call),
-          ),
-        ],
+        // actions: const [
+        //   Padding(
+        //     padding: EdgeInsets.only(right: 20),
+        //     child: Icon(Icons.videocam_rounded),
+        //   ),
+        //   Padding(
+        //     padding: EdgeInsets.only(right: 20),
+        //     child: Icon(Icons.call),
+        //   ),
+        // ],
       ),
       body: SafeArea(
         child: Column(
+          // mainAxisSize: MainAxisSize.max,
           children: [
             Builder(
               builder: (context) {
                 if (widget.isNewChat) {
-                  return const Text('Start a new chat');
+                  return Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        CachedNetworkImage(
+                          imageUrl: widget.participant.profileImage ??
+                              'https://picsum.photos/250?image=9',
+                          fit: BoxFit.contain,
+                          imageBuilder: (context, imageProvider) =>
+                              CircleAvatar(
+                            backgroundImage: imageProvider,
+                            radius: 38,
+                          ),
+                          placeholder: (context, url) => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                        ),
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        const Text(
+                          'Start typing to send a message',
+                          style: kRegular14,
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
+                  );
                 } else {
                   return StreamBuilder<Chat>(
                     stream: FirebaseFirestore.instance
@@ -209,11 +225,13 @@ class SingleChatState extends State<SingleChat> {
                             text: controller.text,
                             timestamp: DateTime.now(),
                           ),
+                          context,
+                          widget.participant,
                         );
                       } else {
                         chatController.sendMessage(
                           controller.text,
-                          widget.chatId,
+                          widget.chatId!,
                           auth.currentUser!.uid,
                         );
                       }

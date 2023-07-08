@@ -99,18 +99,15 @@ class _ProfileInfoState extends State<ProfileInfo> {
                   ),
                   const Spacer(),
                   image != null
-                      ? SizedBox(
-                          width: double.infinity,
-                          child: PrimaryButton(
-                            variant: Variant.outline,
-                            title: 'Proceed',
-                            onPressed: () {
-                              context
-                                  .read<AuthController>()
-                                  .uploadProfileImage(image!.path);
-                              context.goNamed('interests');
-                            },
-                          ),
+                      ? PrimaryButton(
+                          variant: Variant.outline,
+                          title: 'Proceed',
+                          onPressed: () {
+                            context
+                                .read<AuthController>()
+                                .uploadProfileImage(image!.path);
+                            context.goNamed('interests');
+                          },
                         )
                       : const SizedBox.shrink(),
                   PrimaryButton(

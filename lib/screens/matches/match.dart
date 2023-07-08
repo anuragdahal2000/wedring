@@ -8,6 +8,7 @@ import 'package:wedring/utils/constant.dart';
 
 import '../../utils/collection_helper.dart';
 import 'package:wedring/models/user.dart' as u;
+import 'package:go_router/go_router.dart';
 
 class MyMatches extends StatelessWidget {
   const MyMatches({super.key});
@@ -123,7 +124,16 @@ class MyMatches extends StatelessWidget {
                                         Expanded(
                                           child: IconButton(
                                             onPressed: () {
-                                              //TODO: Navigate to chat screen
+                                              context.goNamed(
+                                                'single-chat',
+                                                extra: user,
+                                                pathParameters: {
+                                                  'chatId': user.uid,
+                                                },
+                                                queryParameters: {
+                                                  'new': 'true',
+                                                },
+                                              );
                                             },
                                             icon: const Icon(
                                               Icons.messenger_outline,
