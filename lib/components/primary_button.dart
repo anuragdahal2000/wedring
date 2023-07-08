@@ -103,7 +103,7 @@ class PrimaryButton extends StatelessWidget {
           ),
           onPressed: onPressed,
           child: Row(
-            mainAxisSize: MainAxisSize.max,
+            mainAxisSize: MainAxisSize.min,
             children: [
               icon ?? const SizedBox(),
               Text(
@@ -116,12 +116,13 @@ class PrimaryButton extends StatelessWidget {
       default:
         return TextButton(
           style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(kPrimaryColor1),
-              foregroundColor: MaterialStateProperty.all(
-                Colors.white,
-              ),
-              padding: _buttonPadding,
-              shape: _buttonShape),
+            backgroundColor: MaterialStateProperty.all(kPrimaryColor1),
+            foregroundColor: MaterialStateProperty.all(
+              Colors.white,
+            ),
+            padding: _buttonPadding,
+            shape: _buttonShape,
+          ),
           onPressed: onPressed,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
