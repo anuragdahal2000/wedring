@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:wedring/models/message.dart';
 
 class SenderRowView extends StatelessWidget {
-  const SenderRowView({Key? key, required this.index}) : super(key: key);
+  // const SenderRowView({Key? key, required this.index}) : super(key: key);
 
-  final int index;
+  // final int index;
+  final Message message;
+
+  const SenderRowView({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -19,20 +24,20 @@ class SenderRowView extends StatelessWidget {
               shape: BoxShape.rectangle,
               color: Color(0xffD11C2D),
               borderRadius: BorderRadius.all(Radius.circular(20))),
-          child: const Text(
-            'chatModelList.elementAt(index).message',
+          child: Text(
+            message.text,
             textAlign: TextAlign.left,
-            style: TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white),
             softWrap: true,
           ),
         ),
       ]),
-      subtitle: const Padding(
-        padding: EdgeInsets.only(right: 8, top: 4),
+      subtitle: Padding(
+        padding: const EdgeInsets.only(right: 8, top: 4),
         child: Text(
-          '10:03 AM',
+          DateFormat.jm().format(message.timestamp),
           textAlign: TextAlign.right,
-          style: TextStyle(fontSize: 10),
+          style: const TextStyle(fontSize: 10),
         ),
       ),
       trailing: const CircleAvatar(

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:wedring/models/message.dart';
 
 class ReceiverRowView extends StatelessWidget {
-  const ReceiverRowView({Key? key, required this.index}) : super(key: key);
+  // const ReceiverRowView({Key? key, required this.index}) : super(key: key);
 
-  final int index;
+  // final int index;
+  final Message message;
 
+  const ReceiverRowView({super.key, required this.message});
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -25,9 +29,9 @@ class ReceiverRowView extends StatelessWidget {
                 Radius.circular(20),
               ),
             ),
-            child: const Text(
-              'chatModelList.elementAt(index).message,',
-              style: TextStyle(
+            child: Text(
+              message.text,
+              style: const TextStyle(
                 color: Colors.black,
               ),
             ),
@@ -37,11 +41,11 @@ class ReceiverRowView extends StatelessWidget {
       trailing: Container(
         width: 50,
       ),
-      subtitle: const Padding(
-        padding: EdgeInsets.only(left: 8, top: 4),
+      subtitle: Padding(
+        padding: const EdgeInsets.only(left: 8, top: 4),
         child: Text(
-          '8:04 AM',
-          style: TextStyle(
+          DateFormat.jm().format(message.timestamp),
+          style: const TextStyle(
             fontSize: 10,
           ),
         ),
