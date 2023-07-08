@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:wedring/models/chat.dart';
 import 'package:wedring/models/message.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wedring/models/user.dart' as u;
 
 class ChatController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -18,9 +21,10 @@ class ChatController {
     }, SetOptions(merge: true));
   }
 
-  void startConversation(String recieverId, Message message) async {
+  void startConversation(String recieverId, Message message,
+      BuildContext context, u.User chatUser) async {
     _firestore
-        .collection('chats')
+        .collection('chat')
         .add(
           Chat(
             id: '',
@@ -31,10 +35,15 @@ class ChatController {
         )
         .then(
       (value) {
-        _firestore.collection('chats').doc(value.id).set({
+        _firestore.collection('chat').doc(value.id).update({
           'id': value.id,
         });
         sendMessage(message.text, value.id, message.senderId);
+        context.goNamed(
+          'single-chat',
+          pathParameters: {'chatId': value.id},
+          extra: chatUser,
+        );
       },
     );
   }
