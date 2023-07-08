@@ -1,9 +1,22 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:wedring/utils/constant.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wedring/components/primary_button.dart';
 
-import '../Info/intrests.dart';
+import '../../utils/constant.dart';
+
+class ProfileOption {
+  final String title;
+  final IconData? icon;
+  final VoidCallback onTap;
+
+  ProfileOption({
+    required this.title,
+    this.icon = Icons.chevron_right,
+    required this.onTap,
+  });
+}
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -13,138 +26,184 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  final List<IntrestModel> _intrest = [
-    IntrestModel(name: 'Photography', icon: Icons.camera_alt_outlined),
-    IntrestModel(name: 'Music', icon: Icons.music_note_outlined),
-    IntrestModel(name: 'Dance', icon: Icons.dynamic_feed),
-    IntrestModel(name: 'Travel', icon: Icons.airplanemode_active),
-    IntrestModel(name: 'Food', icon: Icons.fastfood_outlined),
-    IntrestModel(name: 'Sports', icon: Icons.sports_basketball_outlined),
-  ];
-
   late User currentUser = FirebaseAuth.instance.currentUser!;
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CachedNetworkImage(
-            imageUrl: currentUser.photoURL!,
-            imageBuilder: (context, imageProvider) => Container(
-              margin: const EdgeInsets.only(top: 20, bottom: 20),
-              height: 200,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            placeholder: (context, url) => const Center(
-              child: CircularProgressIndicator(),
-            ),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    currentUser.displayName ?? 'John Doe',
-                    style: kBold18,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  currentUser.emailVerified
-                      ? const Icon(
-                          Icons.verified,
-                          color: Colors.green,
-                        )
-                      : const SizedBox()
-                ],
-              ),
-              Text(
-                currentUser.email!,
-                style: kMedium12,
-              ),
-              const Row(
-                children: [
-                  Icon(
-                    Icons.location_on,
-                    color: Colors.red,
-                  ),
-                  SizedBox(
-                    width: 2,
-                  ),
-                  Text(
-                    'Katmandu, Nepal',
-                    style: kSemiBold14,
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const Divider(),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 12.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final List<ProfileOption> _moreSettings = [
+      ProfileOption(
+        onTap: () {},
+        title: 'About Us',
+      ),
+    ];
+
+    final List<ProfileOption> accountSettings = [
+      ProfileOption(
+        onTap: () {
+          context.goNamed('profile-details');
+        },
+        title: 'My Profile',
+      ),
+      ProfileOption(
+        onTap: () {},
+        title: 'Change Password',
+      ),
+    ];
+
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(0.0),
+        child: AppBar(),
+      ),
+      body: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
+        padding: const EdgeInsets.symmetric(vertical: 24),
+        child: Column(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  'Occupation',
-                  style: kBold16,
+                currentUser.photoURL != null
+                    ? CachedNetworkImage(
+                        imageUrl: currentUser.photoURL!,
+                        fit: BoxFit.contain,
+                        imageBuilder: (context, imageProvider) => CircleAvatar(
+                          backgroundImage: imageProvider,
+                          radius: 48,
+                        ),
+                        placeholder: (context, url) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                      )
+                    : const CircleAvatar(
+                        backgroundImage: AssetImage('assets/images/logo.png'),
+                        radius: 48,
+                        backgroundColor: Colors.white,
+                      ),
+                const SizedBox(
+                  height: 8,
                 ),
-                Text(
-                  'Software Engineer',
-                  style: kSemiBold14,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          currentUser.displayName ?? '',
+                          style: kBold20,
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        currentUser.emailVerified
+                            ? const Icon(
+                                Icons.verified,
+                                size: 16,
+                                color: Colors.green,
+                              )
+                            : const SizedBox(),
+                      ],
+                    ),
+                    Text(
+                      currentUser.email!,
+                      style: kRegular14,
+                    ),
+                  ],
                 ),
               ],
             ),
-          ),
-          const Divider(),
-          const SizedBox(
-            height: 10,
-          ),
-          const Text(
-            'About Me',
-            style: kBold16,
-          ),
-          const Text(
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl. Nulla euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, quis ultricies nisl nisl eget nisl.',
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          const Divider(),
-          const Text(
-            'My Interests',
-            style: kBold16,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Wrap(
-            children: _intrest
-                .map(
-                  (intrest) => Card(
-                    child: ListTile(
-                      horizontalTitleGap: 0,
-                      leading: Icon(intrest.icon),
-                      title: Text(intrest.name),
-                    ),
+            const SizedBox(
+              height: 16,
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Account Settings',
+                    style: kRegular14.copyWith(color: kTeritary1),
                   ),
-                )
-                .toList(),
-          ),
-        ],
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: accountSettings.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: ((context, index) {
+                      return Column(
+                        children: [
+                          ProfileTile(
+                            option: accountSettings[index],
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                        ],
+                      );
+                    }),
+                  ),
+                  const Divider(),
+                  Text(
+                    'More',
+                    style: kRegular14.copyWith(color: kTeritary1),
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: _moreSettings.length,
+                    itemBuilder: ((context, index) {
+                      return ProfileTile(
+                        option: _moreSettings[index],
+                      );
+                    }),
+                  ),
+                  PrimaryButton(
+                    variant: Variant.outline,
+                    title: 'Logout',
+                    icon: const Icon(Icons.logout),
+                    horizontalIconSpace: 12,
+                    onPressed: () {
+                      FirebaseAuth.instance.signOut();
+                      context.goNamed('signin');
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
+    );
+  }
+}
+
+class ProfileTile extends StatelessWidget {
+  final ProfileOption option;
+
+  const ProfileTile({super.key, required this.option});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      tileColor: Colors.white,
+      onTap: option.onTap,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      title: Text(
+        option.title,
+        style: kRegular14.copyWith(
+          color: kPrimaryColor2,
+        ),
+      ),
+      trailing: Icon(option.icon),
     );
   }
 }

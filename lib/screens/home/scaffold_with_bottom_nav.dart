@@ -46,8 +46,8 @@ class _ScaffoldWithBottomNav extends State<ScaffoldWithBottomNav> {
     ),
     const ScaffoldWithNavBarTabItem(
       initialLocation: '/profile',
-      icon: Icon(Icons.person_outlined),
-      label: 'Profile',
+      icon: Icon(Icons.settings_outlined),
+      label: 'Settings',
     ),
   ];
 
@@ -69,7 +69,10 @@ class _ScaffoldWithBottomNav extends State<ScaffoldWithBottomNav> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 8.0,
+            vertical: 16.0,
+          ),
           child: Center(
             child: widget.child,
           ),
