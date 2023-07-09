@@ -122,12 +122,23 @@ class AppRouter {
             ),
           ),
           GoRoute(
-            name: 'my-matches',
-            path: '/my-matches',
-            pageBuilder: (context, state) => const NoTransitionPage(
-              child: MyMatches(),
-            ),
-          ),
+              name: 'my-matches',
+              path: '/my-matches',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                    child: MyMatches(),
+                  ),
+              routes: [
+                GoRoute(
+                  name: 'match-user',
+                  path: 'details/:userId',
+                  builder: (context, state) {
+                    final id = state.pathParameters['userId'] as String;
+                    return ProfileDetails(
+                      userId: id,
+                    );
+                  },
+                ),
+              ]),
           GoRoute(
             name: 'chat',
             path: '/chat',
@@ -149,10 +160,20 @@ class AppRouter {
               //   path: 'settings',
               //   builder: (context, state) => const Settings(),
               // ),
+              // GoRoute(
+              //   name: 'profile-details',
+              //   path: 'profile-details',
+              //   builder: (context, state) => const ProfileDetails(),
+              // ),
               GoRoute(
                 name: 'profile-details',
-                path: 'profile-details',
-                builder: (context, state) => const ProfileDetails(),
+                path: 'details/:userId',
+                builder: (context, state) {
+                  final id = state.pathParameters['userId'] as String;
+                  return ProfileDetails(
+                    userId: id,
+                  );
+                },
               ),
             ],
           ),

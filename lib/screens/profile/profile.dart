@@ -40,7 +40,9 @@ class _ProfileState extends State<Profile> {
     final List<ProfileOption> accountSettings = [
       ProfileOption(
         onTap: () {
-          context.goNamed('profile-details');
+          context.goNamed('profile-details', pathParameters: {
+            'userId': currentUser.uid,
+          });
         },
         title: 'My Profile',
       ),

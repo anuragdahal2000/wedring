@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wedring/utils/constant.dart';
 
@@ -9,15 +8,15 @@ import '../../utils/collection_helper.dart';
 import 'package:wedring/models/user.dart' as u;
 
 class ProfileDetails extends StatefulWidget {
-  const ProfileDetails({super.key});
+  final String userId;
+
+  const ProfileDetails({super.key, required this.userId});
 
   @override
   State<ProfileDetails> createState() => _ProfileDetailsState();
 }
 
 class _ProfileDetailsState extends State<ProfileDetails> {
-  late User currentUser = FirebaseAuth.instance.currentUser!;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,17 +24,17 @@ class _ProfileDetailsState extends State<ProfileDetails> {
         child: FutureBuilder(
           future: FirebaseFirestore.instance
               .collection(CollectionHelper.userCollection)
-              .doc(currentUser.uid)
+              .doc(widget.userId)
               .get(),
           builder: (context, snapshot) {
-            final user = u.User.fromJson(snapshot.data!.data()!);
             if (snapshot.hasData) {
+              final user = u.User.fromJson(snapshot.data!.data()!);
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  currentUser.photoURL != null
+                  user.profileImage != null
                       ? CachedNetworkImage(
-                          imageUrl: currentUser.photoURL!,
+                          imageUrl: user.profileImage!,
                           imageBuilder: (context, imageProvider) => Container(
                             margin: const EdgeInsets.only(top: 20, bottom: 20),
                             height: 200,
@@ -62,22 +61,24 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                       Row(
                         children: [
                           Text(
-                            currentUser.displayName ?? '',
+                            user.name,
                             style: kBold18,
                           ),
                           const SizedBox(
                             width: 10,
                           ),
-                          currentUser.emailVerified
-                              ? const Icon(
-                                  Icons.verified,
-                                  color: Colors.green,
-                                )
-                              : const SizedBox()
+                          //TODO: Uncomment this when email verification is done
+
+                          // user.emailVerified
+                          //     ? const Icon(
+                          //         Icons.verified,
+                          //         color: Colors.green,
+                          //       )
+                          //     : const SizedBox()
                         ],
                       ),
                       Text(
-                        currentUser.email!,
+                        user.email,
                         style: kMedium12,
                       ),
                       Row(

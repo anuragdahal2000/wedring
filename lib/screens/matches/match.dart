@@ -56,103 +56,110 @@ class MyMatches extends StatelessWidget {
                     ),
                     itemBuilder: (context, idx) {
                       final user = matches[idx];
-                      return Card(
-                        child: CachedNetworkImage(
-                          imageUrl: user.profileImage ??
-                              'https://picsum.photos/id/237/200/300',
-                          imageBuilder: (context, imageProvider) => Container(
-                            height: 400,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              image: DecorationImage(
-                                image: imageProvider,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8.0,
-                                    vertical: 8,
-                                  ),
-                                  child: Wrap(
-                                    children: [
-                                      Text(
-                                        user.name,
-                                        style: kSemiBold16.copyWith(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      Text(
-                                        ', ${user.weight}',
-                                        style: kMedium14.copyWith(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                      return GestureDetector(
+                        onTap: () {
+                          context.goNamed('match-user', pathParameters: {
+                            'userId': user.uid,
+                          });
+                        },
+                        child: Card(
+                          child: CachedNetworkImage(
+                            imageUrl: user.profileImage ??
+                                'https://picsum.photos/id/237/200/300',
+                            imageBuilder: (context, imageProvider) => Container(
+                              height: 400,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
                                 ),
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(4),
-                                    bottomRight: Radius.circular(4),
-                                  ),
-                                  child: BackdropFilter(
-                                    filter: ImageFilter.blur(
-                                      sigmaX: 6.0,
-                                      sigmaY: 6.0,
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0,
+                                      vertical: 8,
                                     ),
-                                    child: Row(
+                                    child: Wrap(
                                       children: [
-                                        Expanded(
-                                          child: IconButton(
-                                            onPressed: () {},
-                                            icon: const Icon(
-                                              Icons.close,
-                                              color: Colors.white,
-                                            ),
+                                        Text(
+                                          user.name,
+                                          style: kSemiBold16.copyWith(
+                                            color: Colors.white,
                                           ),
                                         ),
-                                        Container(
-                                          height: 24,
-                                          color: Colors.white,
-                                          width: 1,
-                                        ),
-                                        Expanded(
-                                          child: IconButton(
-                                            onPressed: () {
-                                              context.goNamed(
-                                                'single-chat',
-                                                extra: user,
-                                                pathParameters: {
-                                                  'chatId': user.uid,
-                                                },
-                                                queryParameters: {
-                                                  'new': 'true',
-                                                },
-                                              );
-                                            },
-                                            icon: const Icon(
-                                              Icons.messenger_outline,
-                                              color: Colors.white,
-                                            ),
+                                        Text(
+                                          ', ${user.weight}',
+                                          style: kMedium14.copyWith(
+                                            color: Colors.white,
                                           ),
                                         ),
                                       ],
                                     ),
                                   ),
-                                ),
-                              ],
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.only(
+                                      bottomLeft: Radius.circular(4),
+                                      bottomRight: Radius.circular(4),
+                                    ),
+                                    child: BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                        sigmaX: 6.0,
+                                        sigmaY: 6.0,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: IconButton(
+                                              onPressed: () {},
+                                              icon: const Icon(
+                                                Icons.close,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 24,
+                                            color: Colors.white,
+                                            width: 1,
+                                          ),
+                                          Expanded(
+                                            child: IconButton(
+                                              onPressed: () {
+                                                context.goNamed(
+                                                  'single-chat',
+                                                  extra: user,
+                                                  pathParameters: {
+                                                    'chatId': user.uid,
+                                                  },
+                                                  queryParameters: {
+                                                    'new': 'true',
+                                                  },
+                                                );
+                                              },
+                                              icon: const Icon(
+                                                Icons.messenger_outline,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
+                            placeholder: (context, url) => const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
                           ),
-                          placeholder: (context, url) => const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
                         ),
                       );
                     },
