@@ -156,12 +156,12 @@ class SingleChatState extends State<SingleChat> {
                                     ? SenderRowView(
                                         message: message,
                                         displayPictureURL:
-                                            widget.participant.profileImage,
+                                            auth.currentUser!.photoURL,
                                       )
                                     : ReceiverRowView(
                                         message: message,
                                         displayPictureURL:
-                                            auth.currentUser!.photoURL,
+                                            widget.participant.profileImage,
                                       );
                               }
                             },

@@ -6,8 +6,11 @@ class SenderRowView extends StatelessWidget {
   final Message message;
   final String? displayPictureURL;
 
-  const SenderRowView(
-      {super.key, required this.message, required this.displayPictureURL});
+  const SenderRowView({
+    super.key,
+    required this.message,
+    required this.displayPictureURL,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +47,8 @@ class SenderRowView extends StatelessWidget {
       ),
       trailing: CircleAvatar(
         backgroundImage: NetworkImage(
-            displayPictureURL ?? 'https://picsum.photos/250?image=9'),
+          displayPictureURL ?? 'https://picsum.photos/250?image=9',
+        ),
       ),
     );
   }

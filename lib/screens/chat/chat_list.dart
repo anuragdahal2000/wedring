@@ -63,9 +63,10 @@ class _ChatListState extends State<ChatList> {
                           final chatUser =
                               u.User.fromJson(snapshot.data!.data()!);
                           return ListTile(
-                            leading: const CircleAvatar(
+                            leading: CircleAvatar(
                               backgroundImage: NetworkImage(
-                                'https://picsum.photos/250?image=9',
+                                chatUser.profileImage ??
+                                    'https://picsum.photos/250?image=9',
                               ),
                             ),
                             title: Text(
