@@ -512,6 +512,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.1"
+  group_button:
+    dependency: "direct main"
+    description:
+      name: group_button
+      sha256: "1382097b97589a66601fbfdf244dc3214e396724ea43899c481fcd40f0d89298"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.3.0"
   html:
     dependency: transitive
     description:
