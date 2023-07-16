@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wedring/utils/constant.dart';
 import 'package:wedring/utils/helper.dart';
 
 class ScaffoldWithBottomNav extends StatefulWidget {
@@ -64,6 +65,7 @@ class _ScaffoldWithBottomNav extends State<ScaffoldWithBottomNav> {
         ),
         title: Text(
           tabs[_currentIndex].label!,
+          style: kSemiBold18,
         ),
         centerTitle: true,
       ),
