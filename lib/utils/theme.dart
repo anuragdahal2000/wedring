@@ -4,7 +4,8 @@ import 'package:wedring/utils/constant.dart';
 class WedringTheme {
   static lightTheme() {
     return ThemeData(
-      iconTheme: const IconThemeData(color: kPrimaryColor1),
+      useMaterial3: true,
+      scaffoldBackgroundColor: kBackgroundColor1,
       primaryColor: kPrimaryColor1,
       textSelectionTheme: const TextSelectionThemeData(
         cursorColor: kPrimaryColor1,
@@ -19,7 +20,7 @@ class WedringTheme {
             primary: kPrimaryColor1,
           ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: kPrimaryColor3,
+        backgroundColor: kBackgroundColor2,
         iconTheme: IconThemeData(color: kPrimaryColor1),
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
