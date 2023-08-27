@@ -36,6 +36,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
               ?.map((e) => e as String)
               .toList() ??
           const [],
+      isVerifiedByAdmin: json['isVerifiedByAdmin'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -61,4 +62,5 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'profileImage': instance.profileImage,
       'interests': instance.interests,
       'friends': instance.friends,
+      'isVerifiedByAdmin': instance.isVerifiedByAdmin,
     };

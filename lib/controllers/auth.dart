@@ -64,6 +64,7 @@ class AuthController extends ChangeNotifier {
       'email': email,
       'dateOfBirth': dob,
       'phone': phone,
+      'isVerifiedByAdmin': false,
     });
   }
 

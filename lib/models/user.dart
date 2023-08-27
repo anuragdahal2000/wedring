@@ -30,6 +30,7 @@ class User {
   final String? profileImage;
   final List<String> interests;
   final List<String> friends;
+  final bool isVerifiedByAdmin;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
@@ -57,6 +58,7 @@ class User {
     this.profileImage,
     required this.interests,
     this.friends = const [],
+    this.isVerifiedByAdmin = false,
   });
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
