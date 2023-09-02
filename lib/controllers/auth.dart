@@ -88,6 +88,7 @@ class AuthController extends ChangeNotifier {
     String state,
     String city,
     String userId,
+    String gotra,
   ) {
     _firestore.collection(CollectionHelper.userCollection).doc(userId).update({
       'gender': gender,
@@ -95,6 +96,7 @@ class AuthController extends ChangeNotifier {
       'community': community,
       'state': state,
       'city': city,
+      'gotra': gotra,
     });
   }
 

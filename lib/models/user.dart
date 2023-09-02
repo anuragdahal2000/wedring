@@ -31,6 +31,7 @@ class User {
   final List<String> interests;
   final List<String> friends;
   final bool isVerifiedByAdmin;
+  final String gotra;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
@@ -42,6 +43,7 @@ class User {
     this.dateOfBirth,
     required this.gender,
     required this.religion,
+    required this.gotra,
     required this.community,
     // required this.country,
     required this.state,

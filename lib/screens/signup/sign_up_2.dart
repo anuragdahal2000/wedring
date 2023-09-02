@@ -19,6 +19,33 @@ class _SignUp2State extends State<SignUp2> {
 
   final _formKey = GlobalKey<FormState>();
 
+  final List<String> _gotra = [
+    'Agasti (अगस्ती)',
+    "Atri (अत्रि)",
+    "Aatreya (आत्रेय) ",
+    "Bharadwaaj (भरद्वाज)",
+    "Dhananjaya (धनञ्जय)",
+    "Garg (गर्ग)",
+    "Gautam (गौतम)",
+    "Ghrita Kaushik (घृत कौशिक)",
+    "Kapil (कपिल)",
+    "Kashyap (कश्यप)",
+    "Kaudinya (कौण्डिन्य)",
+    "Kausalya (कौसल्य)",
+    "Kausik (कौशिक)",
+    "Kundin (कुण्डिन)",
+    "Mandabya (माण्डव्य)",
+    "Maudagalya (मौद्गल्य)",
+    "Parasar (परासर)",
+    "Ravi (रवि)",
+    "Sankhyayan (सङ्ख्यायन)",
+    "Shandilya (शाण्डिल्य)",
+    "Upamanyu (उपमन्यु)",
+    "Vishwamitra (विश्वमित्र)",
+    "Vatsa (वत्स)",
+    "Vashishta (वशिष्ठ)",
+  ];
+
   List<String> religionList = [
     'Hindu',
     'Muslim',
@@ -56,6 +83,7 @@ class _SignUp2State extends State<SignUp2> {
   late String selectedCommunity = communityList[0];
   late String selectedState = states[0];
   late String selectedCity = cities[0];
+  late String selectedGotra = _gotra[0];
 
   @override
   Widget build(BuildContext context) {
@@ -150,6 +178,19 @@ class _SignUp2State extends State<SignUp2> {
                         },
                       ),
                       const SizedBox(
+                        height: 8,
+                      ),
+                      CustomDropDown(
+                        helperText: 'Gotra',
+                        optionList: _gotra,
+                        selectedOption: selectedGotra,
+                        onChanged: (p0) {
+                          setState(() {
+                            selectedGotra = p0!;
+                          });
+                        },
+                      ),
+                      const SizedBox(
                         height: 12,
                       ),
                     ],
@@ -167,6 +208,7 @@ class _SignUp2State extends State<SignUp2> {
                             selectedCommunity,
                             selectedState,
                             selectedCity,
+                            selectedGotra,
                             FirebaseAuth.instance.currentUser!.uid,
                           );
                       context.goNamed('basic-info');

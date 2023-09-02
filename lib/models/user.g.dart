@@ -15,6 +15,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
           User._dateTimeFromTimestamp(json['dateOfBirth'] as Timestamp?),
       gender: json['gender'] as String,
       religion: json['religion'] as String,
+      gotra: json['gotra'] as String,
       community: json['community'] as String,
       state: json['state'] as String,
       city: json['city'] as String,
@@ -63,4 +64,5 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'interests': instance.interests,
       'friends': instance.friends,
       'isVerifiedByAdmin': instance.isVerifiedByAdmin,
+      'gotra': instance.gotra,
     };
