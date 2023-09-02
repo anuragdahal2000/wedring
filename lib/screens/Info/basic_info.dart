@@ -28,8 +28,9 @@ class _BasicInfoState extends State<BasicInfo> {
   final TextEditingController weightController = TextEditingController();
   final TextEditingController heightController = TextEditingController();
 
-  late String selectedMaritalStatus = maritalStatus[0];
-  late String seletedFoodPreference = foodPreference[0];
+  String selectedMaritalStatus = MaritalStatus.single.toString().split('.')[1];
+  String seletedFoodPreference =
+      FoodPreference.vegetarian.toString().split('.')[1];
 
   final _formKey = GlobalKey<FormState>();
 

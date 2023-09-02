@@ -78,12 +78,12 @@ class _SignUp2State extends State<SignUp2> {
   ];
   List<String> gender = ['Male', 'Female', 'Others'];
 
-  late String selectedGender = gender[0];
-  late String selectedReligion = religionList[0];
-  late String selectedCommunity = communityList[0];
-  late String selectedState = states[0];
-  late String selectedCity = cities[0];
-  late String selectedGotra = _gotra[0];
+  String selectedGender = 'Male';
+  String selectedReligion = 'Hindu';
+  String selectedCommunity = 'Brahmin';
+  String selectedState = 'Bagmati';
+  String selectedCity = 'Kathmandu';
+  String selectedGotra = 'Agasti (अगस्ती)';
 
   @override
   Widget build(BuildContext context) {

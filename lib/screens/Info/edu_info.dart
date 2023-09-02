@@ -74,10 +74,10 @@ class _EduInfoState extends State<EduInfo> {
     'More than Rs. 10 Lakh',
   ];
 
-  late String selectedQualification = qualification[0];
-  late String selectedWorkWith = workWith[0];
-  late String selectedWorkAs = workAs[0];
-  late String selectedAnnualIncome = annualIncome[0];
+  String selectedQualification = 'Bachelors';
+  String selectedWorkWith = 'Private Company';
+  String selectedWorkAs = 'Admin Professional';
+  String selectedAnnualIncome = 'No Income';
 
   @override
   Widget build(BuildContext context) {
