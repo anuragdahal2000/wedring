@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wedring/components/swipe_card.dart';
+import 'package:wedring/controllers/match_controller.dart';
 import 'package:wedring/utils/constant.dart';
 
 import '../../utils/collection_helper.dart';
@@ -18,110 +19,144 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   bool isDeckEmpty = false;
+
+  final _auth = FirebaseAuth.instance;
+  final MatchController _matchController = MatchController();
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            // IconButton.outlined(
-            //   color: kPrimaryColor2,
-            //   onPressed: () => {
-            //     showModalBottomSheet(
-            //       builder: (context) => const SearchDialog(),
-            //       context: context,
-            //       isScrollControlled: true,
-            //     )
-            //   },
-            //   icon: Icon(Icons.filter_b_and_w_sharp),
-            //   visualDensity: VisualDensity.compact,
-            // ),
-          ],
-        ),
-        FutureBuilder(
-          future: FirebaseFirestore.instance
-              .collection(CollectionHelper.userCollection)
-              .where(
-                'uid',
-                isNotEqualTo: FirebaseAuth.instance.currentUser!.uid,
-              )
-              .get(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              final matches = snapshot.data!.docs
-                  .map(
-                    (e) => u.User.fromJson(e.data()),
-                  )
-                  .toList();
-              final deck = SwipingCardDeck(
-                cardDeck: matches.map((user) => SwipeCard(user: user)).toList(),
-                onDeckEmpty: () => {
-                  setState(() {
-                    isDeckEmpty = true;
-                  })
-                },
-                onLeftSwipe: (Card card) => debugPrint("Swiped left!"),
-                onRightSwipe: (Card card) => debugPrint("Swiped right!"),
-                cardWidth: 380,
-                swipeThreshold: MediaQuery.of(context).size.width / 3,
-                minimumVelocity: 2000,
-                rotationFactor: 0.8 / 3.14,
-                swipeAnimationDuration: const Duration(milliseconds: 800),
-                disableDragging: false,
-              );
-              if (isDeckEmpty) {
-                return const Center(
-                  child: Text(
-                    'No more matches',
-                    style: kSemiBold18,
-                  ),
-                );
-              }
-              return Column(
-                children: [
-                  deck,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton.filled(
-                        icon: const Icon(
-                          Icons.clear,
-                        ),
-                        onPressed: deck.animationActive
-                            ? null
-                            : () => deck.swipeLeft(),
-                      ),
-                      const SizedBox(width: 20),
-                      IconButton.filled(
-                        onPressed: () {},
-                        icon: const Icon(Icons.bookmark),
-                      ),
-                      const SizedBox(width: 20),
-                      IconButton.filled(
-                        icon: const Icon(
-                          Icons.favorite,
-                        ),
-                        onPressed: deck.animationActive
-                            ? null
-                            : () => deck.swipeRight(),
-                      ),
-                    ],
-                  ),
-                ],
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
-        ),
-      ],
-    );
+    return FutureBuilder(
+        future: FirebaseFirestore.instance
+            .collection(CollectionHelper.userCollection)
+            .doc(_auth.currentUser!.uid)
+            .get(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final user = u.User.fromJson(snapshot.data!.data()!);
+            return Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    // IconButton.outlined(
+                    //   color: kPrimaryColor2,
+                    //   onPressed: () => {
+                    //     showModalBottomSheet(
+                    //       builder: (context) => const SearchDialog(),
+                    //       context: context,
+                    //       isScrollControlled: true,
+                    //     )
+                    //   },
+                    //   icon: Icon(Icons.filter_b_and_w_sharp),
+                    //   visualDensity: VisualDensity.compact,
+                    // ),
+                  ],
+                ),
+                FutureBuilder(
+                  future: FirebaseFirestore.instance
+                      .collection(CollectionHelper.userCollection)
+                      .where(
+                        'uid',
+                        isNotEqualTo: FirebaseAuth.instance.currentUser!.uid,
+                      )
+                      .get(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final matches = snapshot.data!.docs
+                          .map(
+                            (e) => u.User.fromJson(e.data()),
+                          )
+                          .toList()
+                          .where((element) => element.gender != user.gender);
+                      final deck = SwipingCardDeck(
+                        cardDeck: matches
+                            .map((user) => SwipeCard(user: user))
+                            .toList(),
+                        onDeckEmpty: () => {
+                          setState(() {
+                            isDeckEmpty = true;
+                          })
+                        },
+                        onLeftSwipe: (Card card) => {
+                          // debugPrint((card as SwipeCard).user.uid),
+                          // _matchController.swipeLeft(
+                          //   _auth.currentUser!.uid,
+                          //   (card as SwipeCard).user.uid,
+                          // ),
+                          // debugPrint("Swiped left!")
+                        },
+                        onRightSwipe: (Card card) => {
+                          // _matchController.swipeRight(
+                          //   _auth.currentUser!.uid,
+                          //   (card as SwipeCard).user.uid,
+                          // ),
+                          // debugPrint("Swiped right!")
+                        },
+                        cardWidth: 380,
+                        swipeThreshold: MediaQuery.of(context).size.width / 3,
+                        minimumVelocity: 2000,
+                        rotationFactor: 0.8 / 3.14,
+                        swipeAnimationDuration:
+                            const Duration(milliseconds: 800),
+                        disableDragging: false,
+                      );
+                      if (isDeckEmpty) {
+                        return const Center(
+                          child: Text(
+                            'No more matches',
+                            style: kSemiBold18,
+                          ),
+                        );
+                      }
+                      return Column(
+                        children: [
+                          deck,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton.filled(
+                                icon: const Icon(
+                                  Icons.clear,
+                                ),
+                                onPressed: deck.animationActive
+                                    ? null
+                                    : () => deck.swipeLeft(),
+                              ),
+                              const SizedBox(width: 20),
+                              IconButton.filled(
+                                onPressed: () {},
+                                icon: const Icon(Icons.bookmark),
+                              ),
+                              const SizedBox(width: 20),
+                              IconButton.filled(
+                                icon: const Icon(
+                                  Icons.favorite,
+                                ),
+                                onPressed: deck.animationActive
+                                    ? null
+                                    : () => deck.swipeRight(),
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
+                    } else {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  },
+                ),
+              ],
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        });
   }
 }
 
