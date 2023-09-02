@@ -1,14 +1,15 @@
 const userData = [
-    { id: 1,name:"Hari", age: 25, gender: 'male', height: 180, bodyType: 'athletic', education: 'college', occupation: 'engineer', location: 'New York', interests: ['music', 'movies', 'sports'], dislikes: ['cats'] },
-    { id: 2,name:"Pratiskhya", age: 28, gender: 'female', height: 165, bodyType: 'slim', education: 'graduate', occupation: 'teacher', location: 'Los Angeles', interests: ['books', 'travel'], dislikes: ['spicy food'] },
-    { id: 3,name:"Sumit", age: 30, gender: 'male', height: 175, bodyType: 'average', education: 'college', occupation: 'doctor', location: 'Chicago', interests: ['sports', 'movies'], dislikes: ['horror movies'] },
-    { id: 4,name:"Radha", age: 27, gender: 'female', height: 170, bodyType: 'athletic', education: 'graduate', occupation: 'engineer', location: 'New York', interests: ['music', 'travel'], dislikes: ['cats'] },
-    { id: 5,name:"Anurag", age: 29, gender: 'male', height: 185, bodyType: 'average', education: 'graduate', occupation: 'doctor', location: 'Los Angeles', interests: ['sports', 'books'], dislikes: ['horror movies'] },
-    { id: 6,name:"Anushka", age: 24, gender: 'female', height: 160, bodyType: 'slim', education: 'college', occupation: 'artist', location: 'New York', interests: ['painting', 'music', 'travel'], dislikes: ['spiders'] },
-    { id: 7,name:"Sishir", age: 32, gender: 'male', height: 190, bodyType: 'muscular', education: 'graduate', occupation: 'lawyer', location: 'Chicago', interests: ['sports', 'photography'], dislikes: ['clowns'] },
-    { id: 8,name:"Aaaiyena", age: 26, gender: 'female', height: 175, bodyType: 'average', education: 'college', occupation: 'writer', location: 'Los Angeles', interests: ['books', 'movies'], dislikes: ['snakes'] },
-    { id: 9,name:"salipa", age: 31, gender: 'female', height: 170, bodyType: 'athletic', education: 'graduate', occupation: 'engineer', location: 'New York', interests: ['music', 'sports'], dislikes: ['horror movies'] },
-    { id: 10,name:"abishek", age: 33, gender: 'male', height: 175, bodyType: 'average', education: 'college', occupation: 'teacher', location: 'Chicago', interests: ['books', 'movies'], dislikes: ['spiders'] },
+    { id: 1,name:"Hari", age: 25, gotra:'Bharadwaaj (भरद्वाज)', gender: 'male', height: 180, bodyType: 'athletic', education: 'college', occupation: 'engineer', location: 'New York', interests: ['music', 'movies', 'sports'], dislikes: ['cats'] },
+    { id: 2,name:"Pratiskhya",gotra:'Bharadwaaj (भरद्वाज)', age: 28, gender: 'female', height: 165, bodyType: 'slim', education: 'graduate', occupation: 'teacher', location: 'Los Angeles', interests: ['books', 'travel'], dislikes: ['spicy food'] },
+    { id: 3,name:"Sumit",gotra:"Garg (गर्ग)", age: 30, gender: 'male', height: 175, bodyType: 'average', education: 'college', occupation: 'doctor', location: 'Chicago', interests: ['sports', 'movies'], dislikes: ['horror movies'] },
+    { id: 4,name:"Radha",gotra:'Garg (गर्ग)', age: 27, gender: 'female', height: 170, bodyType: 'athletic', education: 'graduate', occupation: 'engineer', location: 'New York', interests: ['music', 'travel'], dislikes: ['cats'] },
+    { id: 5,name:"Anurag",gotra:'Kapil (कपिल)', age: 29, gender: 'male', height: 185, bodyType: 'average', education: 'graduate', occupation: 'doctor', location: 'Los Angeles', interests: ['sports', 'books'], dislikes: ['horror movies'] },
+    { id: 6,name:"Anushka",gotra:'Kausalya (कौसल्य)', age: 24, gender: 'female', height: 160, bodyType: 'slim', education: 'college', occupation: 'artist', location: 'New York', interests: ['painting', 'music', 'travel'], dislikes: ['spiders'] },
+    { id: 7,name:"Sishir",gotra:'Mandabya (माण्डव्य)', age: 32, gender: 'male', height: 190, bodyType: 'muscular', education: 'graduate', occupation: 'lawyer', location: 'Chicago', interests: ['sports', 'photography'], dislikes: ['clowns'] },
+    { id: 8,name:"Aaaiyena",gotra:'Maudagalya (मौद्गल्य)', age: 26, gender: 'female', height: 175, bodyType: 'average', education: 'college', occupation: 'writer', location: 'Los Angeles', interests: ['books', 'movies'], dislikes: ['snakes'] },
+    { id: 9,name:"salipa",gotra:'Ravi (रवि)', age: 31, gender: 'female', height: 170, bodyType: 'athletic', education: 'graduate', occupation: 'engineer', location: 'New York', interests: ['music', 'sports'], dislikes: ['horror movies'] },
+    { id: 10,name:"abishek",gotra:'Shandilya (शाण्डिल्य)', age: 33, gender: 'male', height: 175, bodyType: 'average', education: 'college', occupation: 'teacher', location: 'Chicago', interests: ['books', 'movies'], dislikes: ['spiders'] 
+  },
   ];
   
   // Step 1: Calculate User Similarity
@@ -51,7 +52,7 @@ const userData = [
     const potentialPartners = [];
   
     for (const user of userData) {
-      if (user.id !== targetUser.id && user.gender !== targetUser.gender) {
+      if (user.id !== targetUser.id && user.gender !== targetUser.gender && user.gotra !== targetUser.gotra) {
         const similarity = calculateSimilarity(targetUser, user);
         if (similarity >= similarityThreshold) {
           potentialPartners.push(user);
