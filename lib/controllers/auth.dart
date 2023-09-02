@@ -87,8 +87,8 @@ class AuthController extends ChangeNotifier {
     String community,
     String state,
     String city,
-    String userId,
     String gotra,
+    String userId,
   ) {
     _firestore.collection(CollectionHelper.userCollection).doc(userId).update({
       'gender': gender,
@@ -155,5 +155,21 @@ class AuthController extends ChangeNotifier {
       showSnackBar(e.message!, type: SnackType.error);
       throw Exception(e);
     }
+  }
+
+  void blockUser(String blockedUserId) {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    String userId = auth.currentUser!.uid;
+    _firestore.collection(CollectionHelper.userCollection).doc(userId).update({
+      "blockedUsers": FieldValue.arrayUnion([blockedUserId]),
+    });
+  }
+
+  void unblockUser(String blockedUserId) {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    String userId = auth.currentUser!.uid;
+    _firestore.collection(CollectionHelper.userCollection).doc(userId).update({
+      "blockedUsers": FieldValue.arrayRemove([blockedUserId]),
+    });
   }
 }
