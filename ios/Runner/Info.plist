@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 	<dict>
+		<key>NSCameraUsageDescription</key>
+		<string>This app uses the camera for testing purposes</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>This app requires location permision</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>This app uses the library for testing purposes</string>
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
