@@ -35,6 +35,7 @@ class User {
   final List<String> likedUsers;
   final List<String> dislikedUsers;
   final List<String> blockedUsers;
+  final List<String> removeMatchedUsers;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
@@ -67,6 +68,7 @@ class User {
     this.likedUsers = const [],
     this.dislikedUsers = const [],
     this.blockedUsers = const [],
+    this.removeMatchedUsers = const [],
   });
 
   Map<String, dynamic> toJson() => _$UserToJson(this);

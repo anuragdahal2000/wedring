@@ -16,4 +16,10 @@ class MatchController {
       "dislikedUsers": FieldValue.arrayUnion([dislikedUserId]),
     });
   }
+
+  void removeMatchedUser(String userId, String matchedUserId) {
+    _firestore.collection('users').doc(userId).update({
+      "removeMatchedUsers": FieldValue.arrayUnion([matchedUserId]),
+    });
+  }
 }

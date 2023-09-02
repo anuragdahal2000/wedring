@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:wedring/utils/constant.dart';
 
 import '../../algo.dart';
+import '../../controllers/match_controller.dart';
 import '../../utils/collection_helper.dart';
 import 'package:wedring/models/user.dart' as u;
 import 'package:go_router/go_router.dart';
@@ -20,6 +21,7 @@ class MyMatches extends StatefulWidget {
 
 class _MyMatchesState extends State<MyMatches> {
   final _auth = FirebaseAuth.instance;
+  final MatchController _matchController = MatchController();
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +62,8 @@ class _MyMatchesState extends State<MyMatches> {
                         .map(
                           (e) => u.User.fromJson(e.data()),
                         )
+                        .where((element) => !currentUser.removeMatchedUsers
+                            .contains(element.uid))
                         .toList();
                     final matches = findMatches(
                       currentUser,
@@ -144,7 +148,13 @@ class _MyMatchesState extends State<MyMatches> {
                                             children: [
                                               Expanded(
                                                 child: IconButton(
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    _matchController
+                                                        .removeMatchedUser(
+                                                      _auth.currentUser!.uid,
+                                                      user.uid,
+                                                    );
+                                                  },
                                                   icon: const Icon(
                                                     Icons.close,
                                                     color: Colors.white,

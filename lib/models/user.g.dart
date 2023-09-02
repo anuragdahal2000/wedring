@@ -53,6 +53,10 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
               ?.map((e) => e as String)
               .toList() ??
           const [],
+      removeMatchedUsers: (json['removeMatchedUsers'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -83,4 +87,5 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'likedUsers': instance.likedUsers,
       'dislikedUsers': instance.dislikedUsers,
       'blockedUsers': instance.blockedUsers,
+      'removeMatchedUsers': instance.removeMatchedUsers,
     };

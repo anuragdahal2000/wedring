@@ -68,7 +68,12 @@ class _HomeState extends State<Home> {
                             (e) => u.User.fromJson(e.data()),
                           )
                           .toList()
-                          .where((element) => element.gender != user.gender);
+                          .where((element) => element.gender != user.gender)
+                          .where((element) =>
+                              user.dislikedUsers.contains(element.uid) == false)
+                          .where((element) =>
+                              user.likedUsers.contains(element.uid) == false)
+                          .toList();
                       final deck = SwipingCardDeck(
                         cardDeck: matches
                             .map((user) => SwipeCard(user: user))
@@ -106,6 +111,14 @@ class _HomeState extends State<Home> {
                           child: Text(
                             'No more matches',
                             style: kSemiBold18,
+                          ),
+                        );
+                      }
+                      if (matches.isEmpty) {
+                        return const Center(
+                          child: Text(
+                            'No more recommendations.You might have swiped all the users.',
+                            textAlign: TextAlign.center,
                           ),
                         );
                       }
