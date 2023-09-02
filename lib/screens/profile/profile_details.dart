@@ -1,7 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:wedring/components/primary_button.dart';
+import 'package:wedring/controllers/auth.dart';
 import 'package:wedring/utils/constant.dart';
+import 'package:wedring/utils/helper.dart';
 
 import '../../utils/collection_helper.dart';
 
@@ -17,6 +21,8 @@ class ProfileDetails extends StatefulWidget {
 }
 
 class _ProfileDetailsState extends State<ProfileDetails> {
+  final AuthController _authController = AuthController();
+  final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -150,6 +156,40 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                         )
                         .toList(),
                   ),
+                  _auth.currentUser!.uid != widget.userId
+                      ? FutureBuilder(
+                          future: FirebaseFirestore.instance
+                              .collection(CollectionHelper.userCollection)
+                              .doc(_auth.currentUser!.uid)
+                              .get(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              final user =
+                                  u.User.fromJson(snapshot.data!.data()!);
+                              if (user.blockedUsers.contains(widget.userId)) {
+                                return PrimaryButton(
+                                  title: 'Unblock User',
+                                  onPressed: () {
+                                    _authController.unblockUser(widget.userId);
+                                    showSnackBar('User unblocked successfully');
+                                    Navigator.pop(context);
+                                  },
+                                );
+                              } else {
+                                return PrimaryButton(
+                                  title: 'Block User',
+                                  onPressed: () {
+                                    _authController.blockUser(widget.userId);
+                                    showSnackBar('User blocked successfully');
+                                    Navigator.pop(context);
+                                  },
+                                );
+                              }
+                            } else {
+                              return const SizedBox();
+                            }
+                          })
+                      : const SizedBox()
                 ],
               );
             } else {

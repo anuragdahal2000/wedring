@@ -38,6 +38,18 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
               .toList() ??
           const [],
       isVerifiedByAdmin: json['isVerifiedByAdmin'] as bool? ?? false,
+      likedUsers: (json['likedUsers'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      dislikedUsers: (json['dislikedUsers'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      blockedUsers: (json['blockedUsers'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -65,4 +77,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'friends': instance.friends,
       'isVerifiedByAdmin': instance.isVerifiedByAdmin,
       'gotra': instance.gotra,
+      'likedUsers': instance.likedUsers,
+      'dislikedUsers': instance.dislikedUsers,
+      'blockedUsers': instance.blockedUsers,
     };

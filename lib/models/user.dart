@@ -32,6 +32,9 @@ class User {
   final List<String> friends;
   final bool isVerifiedByAdmin;
   final String gotra;
+  final List<String> likedUsers;
+  final List<String> dislikedUsers;
+  final List<String> blockedUsers;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
@@ -61,6 +64,9 @@ class User {
     required this.interests,
     this.friends = const [],
     this.isVerifiedByAdmin = false,
+    this.likedUsers = const [],
+    this.dislikedUsers = const [],
+    this.blockedUsers = const [],
   });
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
