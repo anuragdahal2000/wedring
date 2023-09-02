@@ -4,7 +4,7 @@ import 'package:wedring/utils/constant.dart';
 class WedringTheme {
   static lightTheme() {
     return ThemeData(
-      useMaterial3: true,
+      useMaterial3: false,
       scaffoldBackgroundColor: kBackgroundColor1,
       primaryColor: kPrimaryColor1,
       textSelectionTheme: const TextSelectionThemeData(
