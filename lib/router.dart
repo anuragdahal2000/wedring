@@ -5,6 +5,7 @@ import 'package:wedring/screens/Info/basic_info.dart';
 import 'package:wedring/screens/Info/edu_info.dart';
 import 'package:wedring/screens/Info/intrests.dart';
 import 'package:wedring/screens/Info/profile_info.dart';
+import 'package:wedring/screens/auth/email_reset.dart';
 import 'package:wedring/screens/auth/forget_password.dart';
 import 'package:wedring/screens/auth/new_password.dart';
 import 'package:wedring/screens/auth/opt_verification.dart';
@@ -59,17 +60,23 @@ class AppRouter {
             builder: (context, state) => const ForgetPassword(),
             routes: [
               GoRoute(
-                name: 'opt-verfication',
-                path: 'opt-verfication',
-                builder: (context, state) => const OptVerification(),
-                routes: [
-                  GoRoute(
-                    name: 'new-password',
-                    path: 'new-password',
-                    builder: (context, state) => const NewPassword(),
-                  )
-                ],
-              ),
+                  path: 'email-pw-reset',
+                  name: 'email-pw-reset',
+                  builder: (context, state) => const EmailPasswordReset(),
+                  routes: [
+                    GoRoute(
+                      name: 'opt-verfication',
+                      path: 'opt-verfication',
+                      builder: (context, state) => const OptVerification(),
+                      routes: [
+                        GoRoute(
+                          name: 'new-password',
+                          path: 'new-password',
+                          builder: (context, state) => const NewPassword(),
+                        )
+                      ],
+                    ),
+                  ]),
             ],
           ),
         ],

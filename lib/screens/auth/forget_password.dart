@@ -26,11 +26,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   int _selectedMethodIndex = 0;
   final List<PasswordResetMethodModel> _passwordResetMethods = [
     PasswordResetMethodModel(
-      icon: Icons.mobile_friendly_outlined,
-      title: "Reset Via SMS",
-      subtitle: "+977 98*********11",
-    ),
-    PasswordResetMethodModel(
       icon: Icons.email_outlined,
       title: "Reset Via Email",
       subtitle: "abc***@gmail.com",
@@ -39,7 +34,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('Reset Password'),
+      ),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -86,7 +83,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               PrimaryButton(
                 title: 'Proceed',
                 onPressed: () {
-                  context.goNamed('opt-verfication');
+                  context.goNamed('email-pw-reset');
                 },
               ),
             ],

@@ -50,6 +50,19 @@ class AuthController extends ChangeNotifier {
     return null;
   }
 
+  Future<FirebaseAuthException?> resetPassword(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        showSnackBar('No user found for that email.');
+      } else {
+        showSnackBar(e.message!);
+      }
+    }
+    return null;
+  }
+
   Future<void> signOut() async {
     await _auth.signOut();
   }
