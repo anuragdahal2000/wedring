@@ -70,7 +70,6 @@ class SingleChatState extends State<SingleChat> {
           title: Text(
             widget.participant.name,
             style: const TextStyle(
-              color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
           ),
