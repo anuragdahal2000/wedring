@@ -10,28 +10,28 @@ class User {
   final String phone;
   @JsonKey(fromJson: _dateTimeFromTimestamp, toJson: _dateTimeToTimestamp)
   final DateTime? dateOfBirth;
-  final String gender;
-  final String religion;
-  final String community;
+  final String? gender;
+  final String? religion;
+  final String? community;
   // final String country;
-  final String state;
-  final String city;
+  final String? state;
+  final String? city;
   @JsonKey(fromJson: maritalStatusFromJson, toJson: maritalStatusToJson)
   final MaritalStatus maritalStatus;
   @JsonKey(fromJson: foodPreferenceFromJson, toJson: foodPreferenceToJson)
   final FoodPreference foodPreference;
-  final String height;
-  final String weight;
-  final String education;
-  final String occupationSector;
-  final String occupation;
-  final String annualIncome;
+  final String? height;
+  final String? weight;
+  final String? education;
+  final String? occupationSector;
+  final String? occupation;
+  final String? annualIncome;
   final String? about;
   final String? profileImage;
-  final List<String> interests;
+  final List<String>? interests;
   final List<String> friends;
-  final bool isVerifiedByAdmin;
-  final String gotra;
+  final bool? isVerifiedByAdmin;
+  final String? gotra;
   final List<String> likedUsers;
   final List<String> dislikedUsers;
   final List<String> blockedUsers;
@@ -44,24 +44,24 @@ class User {
     required this.email,
     required this.phone,
     this.dateOfBirth,
-    required this.gender,
-    required this.religion,
-    required this.gotra,
-    required this.community,
-    // required this.country,
-    required this.state,
-    required this.city,
-    required this.maritalStatus,
-    required this.foodPreference,
-    required this.height,
-    required this.weight,
-    required this.education,
-    required this.occupationSector,
-    required this.occupation,
-    required this.annualIncome,
+    this.gender = "Male",
+    this.religion = "Hindu",
+    this.gotra = "Agasti (अगस्ती)",
+    this.community = "Brahmin",
+    //  this.country,
+    this.state = "Bagmati",
+    this.city = "Kathmandu",
+    this.maritalStatus = MaritalStatus.single,
+    this.foodPreference = FoodPreference.vegetarian,
+    this.height = "180",
+    this.weight = "55",
+    this.education = "Bachelors",
+    this.occupationSector = "Private",
+    this.occupation = "Software Engineer",
+    this.annualIncome = "100000",
     this.about,
     this.profileImage,
-    required this.interests,
+    this.interests,
     this.friends = const [],
     this.isVerifiedByAdmin = false,
     this.likedUsers = const [],

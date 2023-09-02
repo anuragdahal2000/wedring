@@ -79,19 +79,19 @@ class _HomeState extends State<Home> {
                           })
                         },
                         onLeftSwipe: (Card card) => {
-                          // debugPrint((card as SwipeCard).user.uid),
-                          // _matchController.swipeLeft(
-                          //   _auth.currentUser!.uid,
-                          //   (card as SwipeCard).user.uid,
-                          // ),
-                          // debugPrint("Swiped left!")
+                          debugPrint((card as SwipeCard).user.uid),
+                          _matchController.swipeLeft(
+                            _auth.currentUser!.uid,
+                            (card as SwipeCard).user.uid,
+                          ),
+                          debugPrint("Swiped left!")
                         },
                         onRightSwipe: (Card card) => {
-                          // _matchController.swipeRight(
-                          //   _auth.currentUser!.uid,
-                          //   (card as SwipeCard).user.uid,
-                          // ),
-                          // debugPrint("Swiped right!")
+                          _matchController.swipeRight(
+                            _auth.currentUser!.uid,
+                            (card as SwipeCard).user.uid,
+                          ),
+                          debugPrint("Swiped right!")
                         },
                         cardWidth: 380,
                         swipeThreshold: MediaQuery.of(context).size.width / 3,
@@ -227,7 +227,7 @@ class SwipeCard extends Card {
                   Wrap(
                     alignment: WrapAlignment.start,
                     spacing: 8,
-                    children: user.interests
+                    children: user.interests!
                         .map(
                           (intrest) => Chip(
                             shape: RoundedRectangleBorder(

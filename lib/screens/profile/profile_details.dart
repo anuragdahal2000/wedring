@@ -115,7 +115,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                           style: kBold16,
                         ),
                         Text(
-                          user.occupation,
+                          user.occupation!,
                           style: kSemiBold14,
                         ),
                       ],
@@ -145,7 +145,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                   ),
                   Wrap(
                     spacing: 8,
-                    children: user.interests
+                    children: user.interests!
                         .map(
                           (intrest) => Chip(
                             // horizontalTitleGap: 0,

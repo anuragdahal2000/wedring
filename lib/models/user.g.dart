@@ -13,26 +13,29 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       phone: json['phone'] as String,
       dateOfBirth:
           User._dateTimeFromTimestamp(json['dateOfBirth'] as Timestamp?),
-      gender: json['gender'] as String,
-      religion: json['religion'] as String,
-      gotra: json['gotra'] as String,
-      community: json['community'] as String,
-      state: json['state'] as String,
-      city: json['city'] as String,
-      maritalStatus:
-          User.maritalStatusFromJson(json['maritalStatus'] as String),
-      foodPreference:
-          User.foodPreferenceFromJson(json['foodPreference'] as String),
-      height: json['height'] as String,
-      weight: json['weight'] as String,
-      education: json['education'] as String,
-      occupationSector: json['occupationSector'] as String,
-      occupation: json['occupation'] as String,
-      annualIncome: json['annualIncome'] as String,
+      gender: json['gender'] as String? ?? "Male",
+      religion: json['religion'] as String? ?? "Hindu",
+      gotra: json['gotra'] as String? ?? "Agasti (अगस्ती)",
+      community: json['community'] as String? ?? "Brahmin",
+      state: json['state'] as String? ?? "Bagmati",
+      city: json['city'] as String? ?? "Kathmandu",
+      maritalStatus: json['maritalStatus'] == null
+          ? MaritalStatus.single
+          : User.maritalStatusFromJson(json['maritalStatus'] as String),
+      foodPreference: json['foodPreference'] == null
+          ? FoodPreference.vegetarian
+          : User.foodPreferenceFromJson(json['foodPreference'] as String),
+      height: json['height'] as String? ?? "180",
+      weight: json['weight'] as String? ?? "55",
+      education: json['education'] as String? ?? "Bachelors",
+      occupationSector: json['occupationSector'] as String? ?? "Private",
+      occupation: json['occupation'] as String? ?? "Software Engineer",
+      annualIncome: json['annualIncome'] as String? ?? "100000",
       about: json['about'] as String?,
       profileImage: json['profileImage'] as String?,
-      interests:
-          (json['interests'] as List<dynamic>).map((e) => e as String).toList(),
+      interests: (json['interests'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       friends: (json['friends'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
