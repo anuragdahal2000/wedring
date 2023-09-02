@@ -30,9 +30,11 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    final List<ProfileOption> _moreSettings = [
+    final List<ProfileOption> moreSettings = [
       ProfileOption(
-        onTap: () {},
+        onTap: () {
+          context.goNamed('about-us');
+        },
         title: 'About Us',
       ),
     ];
@@ -47,7 +49,9 @@ class _ProfileState extends State<Profile> {
         title: 'My Profile',
       ),
       ProfileOption(
-        onTap: () {},
+        onTap: () {
+          context.goNamed('change-password');
+        },
         title: 'Change Password',
       ),
     ];
@@ -159,10 +163,10 @@ class _ProfileState extends State<Profile> {
                     shrinkWrap: true,
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: _moreSettings.length,
+                    itemCount: moreSettings.length,
                     itemBuilder: ((context, index) {
                       return ProfileTile(
-                        option: _moreSettings[index],
+                        option: moreSettings[index],
                       );
                     }),
                   ),
