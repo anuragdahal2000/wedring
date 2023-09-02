@@ -11,6 +11,8 @@ import 'package:wedring/screens/auth/new_password.dart';
 import 'package:wedring/screens/auth/opt_verification.dart';
 import 'package:wedring/screens/auth/sign_in.dart';
 import 'package:wedring/screens/chat/chat_list.dart';
+import 'package:wedring/screens/profile/about.dart';
+import 'package:wedring/screens/profile/change_password.dart';
 import 'package:wedring/screens/profile/profile_details.dart';
 import 'package:wedring/screens/signup/sign_up.dart';
 import 'package:wedring/screens/chat/single_chat.dart';
@@ -162,16 +164,16 @@ class AppRouter {
               );
             },
             routes: [
-              // GoRoute(
-              //   name: 'settings',
-              //   path: 'settings',
-              //   builder: (context, state) => const Settings(),
-              // ),
-              // GoRoute(
-              //   name: 'profile-details',
-              //   path: 'profile-details',
-              //   builder: (context, state) => const ProfileDetails(),
-              // ),
+              GoRoute(
+                name: 'change-password',
+                path: 'change-password',
+                builder: (context, state) => const ChangePassword(),
+              ),
+              GoRoute(
+                name: 'about-us',
+                path: 'about-us',
+                builder: (context, state) => const About(),
+              ),
               GoRoute(
                 name: 'profile-details',
                 path: 'details/:userId',
