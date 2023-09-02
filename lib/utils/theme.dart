@@ -19,9 +19,10 @@ class WedringTheme {
       colorScheme: ThemeData().colorScheme.copyWith(
             primary: kPrimaryColor1,
           ),
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         backgroundColor: kBackgroundColor2,
-        iconTheme: IconThemeData(color: kPrimaryColor1),
+        iconTheme: const IconThemeData(color: kPrimaryColor1),
+        titleTextStyle: kSemiBold20.copyWith(color: kPrimaryColor1),
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: kBackgroundColor2,
