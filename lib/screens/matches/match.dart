@@ -64,8 +64,7 @@ class MyMatches extends StatelessWidget {
                         },
                         child: Card(
                           child: CachedNetworkImage(
-                            imageUrl: user.profileImage ??
-                                'https://picsum.photos/id/237/200/300',
+                            imageUrl: user.profileImage ?? '',
                             imageBuilder: (context, imageProvider) => Container(
                               height: 400,
                               width: double.infinity,
@@ -89,13 +88,13 @@ class MyMatches extends StatelessWidget {
                                         Text(
                                           user.name,
                                           style: kSemiBold16.copyWith(
-                                            color: Colors.white,
+                                            color: kPrimaryColor1,
                                           ),
                                         ),
                                         Text(
                                           ', ${user.weight}',
                                           style: kMedium14.copyWith(
-                                            color: Colors.white,
+                                            color: kPrimaryColor1,
                                           ),
                                         ),
                                       ],
@@ -157,8 +156,93 @@ class MyMatches extends StatelessWidget {
                             placeholder: (context, url) => const Center(
                               child: CircularProgressIndicator(),
                             ),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
+                            errorWidget: (context, url, error) => Container(
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                    'assets/images/placeholder-image.png',
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0,
+                                      vertical: 4,
+                                    ),
+                                    child: Wrap(
+                                      children: [
+                                        Text(
+                                          user.name,
+                                          style: kSemiBold16.copyWith(
+                                            color: kPrimaryColor1,
+                                          ),
+                                        ),
+                                        Text(
+                                          ', ${user.weight}',
+                                          style: kMedium14.copyWith(
+                                            color: kPrimaryColor1,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.only(
+                                      bottomLeft: Radius.circular(4),
+                                      bottomRight: Radius.circular(4),
+                                    ),
+                                    child: BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                        sigmaX: 6.0,
+                                        sigmaY: 6.0,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: IconButton(
+                                              onPressed: () {},
+                                              icon: const Icon(
+                                                Icons.close,
+                                                color: kPrimaryColor1,
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 24,
+                                            color: kPrimaryColor1,
+                                            width: 1,
+                                          ),
+                                          Expanded(
+                                            child: IconButton(
+                                              onPressed: () {
+                                                context.goNamed(
+                                                  'single-chat',
+                                                  extra: user,
+                                                  pathParameters: {
+                                                    'chatId': user.uid,
+                                                  },
+                                                  queryParameters: {
+                                                    'new': 'true',
+                                                  },
+                                                );
+                                              },
+                                              icon: const Icon(
+                                                Icons.messenger_outline,
+                                                color: kPrimaryColor1,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       );
