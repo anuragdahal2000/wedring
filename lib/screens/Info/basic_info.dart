@@ -8,6 +8,7 @@ import 'package:wedring/controllers/auth.dart';
 import 'package:wedring/models/user.dart';
 import 'package:wedring/utils/constant.dart';
 import 'package:provider/provider.dart';
+import 'package:wedring/utils/helper.dart';
 
 class BasicInfo extends StatefulWidget {
   const BasicInfo({super.key});
@@ -28,9 +29,8 @@ class _BasicInfoState extends State<BasicInfo> {
   final TextEditingController weightController = TextEditingController();
   final TextEditingController heightController = TextEditingController();
 
-  String selectedMaritalStatus = MaritalStatus.single.toString().split('.')[1];
-  String seletedFoodPreference =
-      FoodPreference.vegetarian.toString().split('.')[1];
+  String? selectedMaritalStatus;
+  String? seletedFoodPreference;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -63,7 +63,7 @@ class _BasicInfoState extends State<BasicInfo> {
                   }),
                 ),
                 spacing,
-                CustomDropDown<String>(
+                CustomDropDown(
                   helperText: 'Food Preference',
                   optionList: foodPreference,
                   selectedOption: seletedFoodPreference,
@@ -123,7 +123,9 @@ class _BasicInfoState extends State<BasicInfo> {
                 PrimaryButton(
                   title: 'Continue',
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
+                    if (_formKey.currentState!.validate() &&
+                        selectedMaritalStatus != null &&
+                        seletedFoodPreference != null) {
                       MaritalStatus maritalStatus = MaritalStatus.values
                           .firstWhere((e) =>
                               e.toString().split('.').last ==
@@ -142,6 +144,9 @@ class _BasicInfoState extends State<BasicInfo> {
                             FirebaseAuth.instance.currentUser!.uid,
                           );
                       context.goNamed('edu-info');
+                    } else {
+                      showSnackBar('Please fill all the fields',
+                          type: SnackType.error);
                     }
                   },
                 ),

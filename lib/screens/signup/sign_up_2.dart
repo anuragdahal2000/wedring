@@ -6,6 +6,7 @@ import 'package:wedring/components/primary_button.dart';
 import 'package:wedring/controllers/auth.dart';
 import 'package:wedring/utils/constant.dart';
 import 'package:provider/provider.dart';
+import 'package:wedring/utils/helper.dart';
 
 class SignUp2 extends StatefulWidget {
   const SignUp2({super.key});
@@ -78,12 +79,12 @@ class _SignUp2State extends State<SignUp2> {
   ];
   List<String> gender = ['Male', 'Female', 'Others'];
 
-  String selectedGender = 'Male';
-  String selectedReligion = 'Hindu';
-  String selectedCommunity = 'Brahmin';
-  String selectedState = 'Bagmati';
-  String selectedCity = 'Kathmandu';
-  String selectedGotra = 'Agasti (अगस्ती)';
+  String? selectedGender;
+  String? selectedReligion;
+  String? selectedCommunity;
+  String? selectedState;
+  String? selectedCity;
+  String? selectedGotra;
 
   @override
   Widget build(BuildContext context) {
@@ -199,19 +200,28 @@ class _SignUp2State extends State<SignUp2> {
                 PrimaryButton(
                   title: 'Continue',
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
+                    if (_formKey.currentState!.validate() &&
+                        selectedGender != null &&
+                        selectedReligion != null &&
+                        selectedCommunity != null &&
+                        selectedState != null &&
+                        selectedCity != null &&
+                        selectedGotra != null) {
                       context
                           .read<AuthController>()
                           .setRegistrationPage2Details(
-                            selectedGender,
-                            selectedReligion,
-                            selectedCommunity,
-                            selectedState,
-                            selectedCity,
-                            selectedGotra,
+                            selectedGender!,
+                            selectedReligion!,
+                            selectedCommunity!,
+                            selectedState!,
+                            selectedCity!,
+                            selectedGotra!,
                             FirebaseAuth.instance.currentUser!.uid,
                           );
                       context.goNamed('basic-info');
+                    } else {
+                      showSnackBar('Please fill all the fields',
+                          type: SnackType.error);
                     }
                   },
                 ),

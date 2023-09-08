@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wedring/controllers/auth.dart';
 import 'package:wedring/utils/constant.dart';
+import 'package:wedring/utils/helper.dart';
 
 import '../../components/custom_dropdown.dart';
 import '../../components/primary_button.dart';
@@ -74,10 +75,10 @@ class _EduInfoState extends State<EduInfo> {
     'More than Rs. 10 Lakh',
   ];
 
-  String selectedQualification = 'Bachelors';
-  String selectedWorkWith = 'Private Company';
-  String selectedWorkAs = 'Admin Professional';
-  String selectedAnnualIncome = 'No Income';
+  String? selectedQualification;
+  String? selectedWorkWith;
+  String? selectedWorkAs;
+  String? selectedAnnualIncome;
 
   @override
   Widget build(BuildContext context) {
@@ -98,6 +99,7 @@ class _EduInfoState extends State<EduInfo> {
               ),
               spacing,
               CustomDropDown(
+                helperText: 'Qualification',
                 optionList: qualification,
                 selectedOption: selectedQualification,
                 onChanged: (p0) => setState(() {
@@ -106,6 +108,7 @@ class _EduInfoState extends State<EduInfo> {
               ),
               spacing,
               CustomDropDown(
+                helperText: 'Work With',
                 optionList: workWith,
                 selectedOption: selectedWorkWith,
                 onChanged: (p0) => setState(() {
@@ -114,6 +117,7 @@ class _EduInfoState extends State<EduInfo> {
               ),
               spacing,
               CustomDropDown(
+                helperText: 'Work As',
                 optionList: workAs,
                 selectedOption: selectedWorkAs,
                 onChanged: (p0) => setState(() {
@@ -122,6 +126,7 @@ class _EduInfoState extends State<EduInfo> {
               ),
               spacing,
               CustomDropDown(
+                helperText: 'Annual Income',
                 optionList: annualIncome,
                 selectedOption: selectedAnnualIncome,
                 onChanged: (p0) => setState(() {
@@ -132,14 +137,22 @@ class _EduInfoState extends State<EduInfo> {
               PrimaryButton(
                 title: 'Submit',
                 onPressed: () {
-                  context.read<AuthController>().setRegistrationPage4Details(
-                        selectedQualification,
-                        selectedWorkWith,
-                        selectedWorkAs,
-                        selectedAnnualIncome,
-                        FirebaseAuth.instance.currentUser!.uid,
-                      );
-                  context.goNamed('profile-info');
+                  if (selectedQualification != null &&
+                      selectedWorkWith != null &&
+                      selectedWorkAs != null &&
+                      selectedAnnualIncome != null) {
+                    context.read<AuthController>().setRegistrationPage4Details(
+                          selectedQualification!,
+                          selectedWorkWith!,
+                          selectedWorkAs!,
+                          selectedAnnualIncome!,
+                          FirebaseAuth.instance.currentUser!.uid,
+                        );
+                    context.goNamed('profile-info');
+                  } else {
+                    showSnackBar('Please fill all the fields',
+                        type: SnackType.error);
+                  }
                 },
               ),
             ],

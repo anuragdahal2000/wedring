@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:wedring/components/primary_button.dart';
 import 'package:wedring/controllers/auth.dart';
 import 'package:wedring/utils/constant.dart';
+import 'package:wedring/utils/helper.dart';
 
 class IntrestModel {
   final String name;
@@ -108,11 +109,17 @@ class _IntrestScreenState extends State<IntrestScreen> {
             PrimaryButton(
               title: 'Continue',
               onPressed: () {
-                context.read<AuthController>().setIntersets(
-                      _selectedIntrest.map((e) => e.name).toList(),
-                      FirebaseAuth.instance.currentUser!.uid,
-                    );
-                context.goNamed('home');
+                if (_selectedIntrest.isNotEmpty &&
+                    _selectedIntrest.length >= 3) {
+                  context.read<AuthController>().setIntersets(
+                        _selectedIntrest.map((e) => e.name).toList(),
+                        FirebaseAuth.instance.currentUser!.uid,
+                      );
+                  context.goNamed('home');
+                } else {
+                  showSnackBar('Please select atleast 3 intrests',
+                      type: SnackType.error);
+                }
               },
             ),
             const SizedBox(

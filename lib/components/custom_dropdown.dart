@@ -55,13 +55,20 @@ class _CustomDropDownState<T> extends State<CustomDropDown<T>> {
               color: kTeritary1,
             ),
             onChanged: widget.onChanged,
-            items: widget.optionList.map<DropdownMenuItem<T>>((T value) {
-              return DropdownMenuItem<T>(
-                  value: value,
+            items: [
+              DropdownMenuItem<T>(
+                  value: null,
                   child: Text(
-                    value.toString(),
-                  ));
-            }).toList(),
+                    'Select ${widget.helperText}',
+                  )),
+              ...widget.optionList.map<DropdownMenuItem<T>>((T value) {
+                return DropdownMenuItem<T>(
+                    value: value,
+                    child: Text(
+                      value.toString(),
+                    ));
+              }).toList()
+            ],
           ),
         ),
       ],
