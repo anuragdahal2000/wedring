@@ -11,6 +11,7 @@ import 'package:wedring/screens/auth/new_password.dart';
 import 'package:wedring/screens/auth/opt_verification.dart';
 import 'package:wedring/screens/auth/sign_in.dart';
 import 'package:wedring/screens/chat/chat_list.dart';
+import 'package:wedring/screens/liked_users.dart';
 import 'package:wedring/screens/profile/about.dart';
 import 'package:wedring/screens/profile/change_password.dart';
 import 'package:wedring/screens/profile/profile_details.dart';
@@ -131,23 +132,43 @@ class AppRouter {
             ),
           ),
           GoRoute(
-              name: 'my-matches',
-              path: '/my-matches',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                    child: MyMatches(),
-                  ),
-              routes: [
-                GoRoute(
-                  name: 'match-user',
-                  path: 'details/:userId',
-                  builder: (context, state) {
-                    final id = state.pathParameters['userId'] as String;
-                    return ProfileDetails(
-                      userId: id,
-                    );
-                  },
-                ),
-              ]),
+            name: 'my-matches',
+            path: '/my-matches',
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: MyMatches(),
+            ),
+            routes: [
+              GoRoute(
+                name: 'match-user',
+                path: 'details/:userId',
+                builder: (context, state) {
+                  final id = state.pathParameters['userId'] as String;
+                  return ProfileDetails(
+                    userId: id,
+                  );
+                },
+              ),
+            ],
+          ),
+          GoRoute(
+            name: 'liked-users',
+            path: '/liked-users',
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: LikedUsers(),
+            ),
+            routes: [
+              GoRoute(
+                name: 'liked-user-details',
+                path: 'details/:userId',
+                builder: (context, state) {
+                  final id = state.pathParameters['userId'] as String;
+                  return ProfileDetails(
+                    userId: id,
+                  );
+                },
+              ),
+            ],
+          ),
           GoRoute(
             name: 'chat',
             path: '/chat',

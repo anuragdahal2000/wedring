@@ -53,6 +53,11 @@ class _ChatListState extends State<ChatList> {
                           (element) => element != currenUserId,
                         )
                         .first;
+                    if (chats.isEmpty) {
+                      return const Center(
+                        child: Text('No chats yet'),
+                      );
+                    }
                     return FutureBuilder(
                       future: FirebaseFirestore.instance
                           .collection(CollectionHelper.userCollection)

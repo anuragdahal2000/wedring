@@ -41,6 +41,11 @@ class _ScaffoldWithBottomNav extends State<ScaffoldWithBottomNav> {
       label: 'My Matches',
     ),
     const ScaffoldWithNavBarTabItem(
+      initialLocation: '/liked-users',
+      icon: Icon(Icons.favorite_outline),
+      label: 'Swiped Right',
+    ),
+    const ScaffoldWithNavBarTabItem(
       initialLocation: '/chat',
       icon: Icon(Icons.chat_bubble_outline),
       label: 'Chat',
