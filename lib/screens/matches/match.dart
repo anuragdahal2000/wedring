@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -6,11 +7,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wedring/utils/constant.dart';
 
-import '../../algo.dart';
 import '../../controllers/match_controller.dart';
 import '../../utils/collection_helper.dart';
 import 'package:wedring/models/user.dart' as u;
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart' as http;
 
 class MyMatches extends StatefulWidget {
   const MyMatches({super.key});
@@ -22,6 +23,13 @@ class MyMatches extends StatefulWidget {
 class _MyMatchesState extends State<MyMatches> {
   final _auth = FirebaseAuth.instance;
   final MatchController _matchController = MatchController();
+
+  Future<List<u.User>> getRecommendation(String userId) async {
+    var res =
+        await http.get(Uri.parse('http://127.0.0.1:8000/recommend/$userId'));
+    return List<u.User>.from(
+        jsonDecode(res.body).map((x) => u.User.fromJson(x)));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,27 +57,15 @@ class _MyMatchesState extends State<MyMatches> {
                 ),
               ),
               FutureBuilder(
-                future: FirebaseFirestore.instance
-                    .collection(CollectionHelper.userCollection)
-                    .where(
-                      'uid',
-                      isNotEqualTo: FirebaseAuth.instance.currentUser!.uid,
-                    )
-                    .get(),
+                future: getRecommendation(currentUser.uid),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    final usersList = snapshot.data!.docs
-                        .map(
-                          (e) => u.User.fromJson(e.data()),
-                        )
-                        .where((element) => !currentUser.removeMatchedUsers
-                            .contains(element.uid))
+                    final matches = snapshot.data!
+                        .where((element) =>
+                            element.gender != currentUser.gender &&
+                            !currentUser.removeMatchedUsers
+                                .contains(element.uid))
                         .toList();
-                    final matches = findMatches(
-                      currentUser,
-                      usersList,
-                      similarityThreshold: 10,
-                    );
                     if (matches.isEmpty) {
                       return const Expanded(
                         child: Center(
@@ -117,21 +113,11 @@ class _MyMatchesState extends State<MyMatches> {
                                           horizontal: 8.0,
                                           vertical: 8,
                                         ),
-                                        child: Wrap(
-                                          children: [
-                                            Text(
-                                              user.name,
-                                              style: kSemiBold16.copyWith(
-                                                color: kPrimaryColor1,
-                                              ),
-                                            ),
-                                            Text(
-                                              ', ${user.weight}',
-                                              style: kMedium14.copyWith(
-                                                color: kPrimaryColor1,
-                                              ),
-                                            ),
-                                          ],
+                                        child: Text(
+                                          user.name,
+                                          style: kBold16.copyWith(
+                                            color: kPrimaryColor1,
+                                          ),
                                         ),
                                       ),
                                       ClipRRect(
@@ -289,9 +275,24 @@ class _MyMatchesState extends State<MyMatches> {
                         },
                       ),
                     );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text(snapshot.error.toString()),
+                    );
                   } else {
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                    return const Expanded(
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircularProgressIndicator(),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Text('Getting your perfect match...'),
+                          ],
+                        ),
+                      ),
                     );
                   }
                 },
