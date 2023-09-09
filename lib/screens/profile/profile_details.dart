@@ -73,14 +73,13 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                           const SizedBox(
                             width: 10,
                           ),
-                          //TODO: Uncomment this when email verification is done
-
-                          // user.emailVerified
-                          //     ? const Icon(
-                          //         Icons.verified,
-                          //         color: Colors.green,
-                          //       )
-                          //     : const SizedBox()
+                          user.isVerifiedByAdmin != null &&
+                                  user.isVerifiedByAdmin!
+                              ? const Icon(
+                                  Icons.verified,
+                                  color: Colors.green,
+                                )
+                              : const SizedBox()
                         ],
                       ),
                       Text(
@@ -155,6 +154,9 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                           ),
                         )
                         .toList(),
+                  ),
+                  const SizedBox(
+                    height: 16,
                   ),
                   _auth.currentUser!.uid != widget.userId
                       ? FutureBuilder(
