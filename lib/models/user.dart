@@ -8,8 +8,8 @@ class User {
   final String name;
   final String email;
   final String phone;
-  @JsonKey(fromJson: _dateTimeFromTimestamp, toJson: _dateTimeToTimestamp)
-  final DateTime? dateOfBirth;
+  // @JsonKey(fromJson: _dateTimeFromTimestamp, toJson: _dateTimeToTimestamp)
+  // final DateTime? dateOfBirth;
   final String? gender;
   final String? religion;
   final String? community;
@@ -44,7 +44,7 @@ class User {
     required this.name,
     required this.email,
     required this.phone,
-    this.dateOfBirth,
+    // this.dateOfBirth,
     this.gender = "Male",
     this.religion = "Hindu",
     this.gotra = "Agasti (अगस्ती)",

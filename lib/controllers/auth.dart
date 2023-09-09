@@ -129,6 +129,10 @@ class AuthController extends ChangeNotifier {
   void setIntersets(List<String> interests, String userId) {
     _firestore.collection(CollectionHelper.userCollection).doc(userId).update({
       'interests': interests,
+      'likedUsers': [],
+      'dislikedUsers': [],
+      'blockedUsers': [],
+      'removeMatchedUsers': []
     });
   }
 

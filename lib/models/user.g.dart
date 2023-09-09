@@ -11,8 +11,6 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       name: json['name'] as String,
       email: json['email'] as String,
       phone: json['phone'] as String,
-      dateOfBirth:
-          User._dateTimeFromTimestamp(json['dateOfBirth'] as Timestamp?),
       gender: json['gender'] as String? ?? "Male",
       religion: json['religion'] as String? ?? "Hindu",
       gotra: json['gotra'] as String? ?? "Agasti (अगस्ती)",
@@ -64,7 +62,6 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'name': instance.name,
       'email': instance.email,
       'phone': instance.phone,
-      'dateOfBirth': User._dateTimeToTimestamp(instance.dateOfBirth),
       'gender': instance.gender,
       'religion': instance.religion,
       'community': instance.community,
